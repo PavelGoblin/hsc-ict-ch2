@@ -1,0 +1,2759 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSC ICT Chapter 2 | Pavel's Notes | Bangladesh Open University</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Noto+Sans+Bengali:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00f5ff;
+  --violet: #bf00ff;
+  --blue: #0066ff;
+  --green: #00ff88;
+  --orange: #ff6b00;
+  --red: #ff2244;
+  --dark: #030712;
+  --dark2: #0a0f1e;
+  --dark3: #0d1530;
+  --card: #0f1a2e;
+  --border: rgba(0,245,255,0.15);
+  --text: #e0e8ff;
+  --muted: #6b7fa3;
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', 'Noto Sans Bengali', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── CIRCUIT BACKGROUND ── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,245,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(0,102,255,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(191,0,255,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 50% 50%, rgba(0,245,255,.04) 0%, transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--dark2); }
+::-webkit-scrollbar-thumb { background:var(--cyan); border-radius:3px; }
+
+/* ── HERO ── */
+.hero {
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem;
+  z-index:1;
+  overflow:hidden;
+}
+
+.hero-particles {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+
+.particle {
+  position:absolute;
+  width:2px; height:2px;
+  background:var(--cyan);
+  border-radius:50%;
+  animation: float linear infinite;
+  opacity:.6;
+}
+
+@keyframes float {
+  0% { transform:translateY(100vh) translateX(0); opacity:0; }
+  10% { opacity:.6; }
+  90% { opacity:.6; }
+  100% { transform:translateY(-10vh) translateX(30px); opacity:0; }
+}
+
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.4rem 1.2rem;
+  border:1px solid rgba(0,245,255,.3);
+  border-radius:50px;
+  font-family:var(--font-display);
+  font-size:.7rem;
+  letter-spacing:.15em;
+  color:var(--cyan);
+  background:rgba(0,245,255,.05);
+  margin-bottom:2rem;
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,245,255,.2); }
+  50% { box-shadow: 0 0 20px 5px rgba(0,245,255,.1); }
+}
+
+.hero-title {
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,5vw,4rem);
+  font-weight:900;
+  line-height:1.1;
+  margin-bottom:1rem;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 40%, var(--violet) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:none;
+  filter:drop-shadow(0 0 30px rgba(0,245,255,.3));
+}
+
+.hero-subtitle {
+  font-family:'Noto Sans Bengali', sans-serif;
+  font-size:clamp(1rem,2.5vw,1.5rem);
+  color:var(--muted);
+  margin-bottom:.5rem;
+}
+
+.hero-meta {
+  font-size:.85rem;
+  color:var(--cyan);
+  opacity:.7;
+  margin-bottom:3rem;
+  letter-spacing:.1em;
+}
+
+.hero-stats {
+  display:flex;
+  gap:3rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:3rem;
+}
+
+.stat-item {
+  text-align:center;
+}
+
+.stat-num {
+  font-family:var(--font-display);
+  font-size:2.5rem;
+  font-weight:900;
+  color:var(--cyan);
+  line-height:1;
+  display:block;
+  filter:drop-shadow(0 0 15px var(--cyan));
+}
+
+.stat-label {
+  font-size:.75rem;
+  color:var(--muted);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.scroll-indicator {
+  position:absolute;
+  bottom:2rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.5rem;
+  color:var(--muted);
+  font-size:.75rem;
+  letter-spacing:.1em;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator::after {
+  content:'';
+  width:1px;
+  height:40px;
+  background:linear-gradient(var(--cyan), transparent);
+}
+
+@keyframes bounce {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50% { transform:translateX(-50%) translateY(-8px); }
+}
+
+/* ── NAV ── */
+nav {
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(3,7,18,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  overflow-x:auto;
+}
+
+.nav-inner {
+  display:flex;
+  gap:0;
+  white-space:nowrap;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.nav-link {
+  padding:.9rem 1.2rem;
+  font-family:var(--font-display);
+  font-size:.65rem;
+  letter-spacing:.08em;
+  color:var(--muted);
+  text-decoration:none;
+  border-bottom:2px solid transparent;
+  transition:all .3s;
+  white-space:nowrap;
+}
+
+.nav-link:hover, .nav-link.active {
+  color:var(--cyan);
+  border-bottom-color:var(--cyan);
+  text-shadow:0 0 10px var(--cyan);
+}
+
+/* ── SECTIONS ── */
+section {
+  position:relative;
+  z-index:1;
+  padding:5rem 2rem;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.section-header {
+  text-align:center;
+  margin-bottom:4rem;
+}
+
+.section-tag {
+  font-family:var(--font-display);
+  font-size:.65rem;
+  letter-spacing:.2em;
+  color:var(--cyan);
+  text-transform:uppercase;
+  margin-bottom:.8rem;
+  display:block;
+}
+
+.section-title {
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,3vw,2.5rem);
+  font-weight:700;
+  margin-bottom:1rem;
+  color:#fff;
+}
+
+.section-title span {
+  color:var(--cyan);
+}
+
+.section-divider {
+  width:60px;
+  height:2px;
+  background:linear-gradient(90deg, var(--cyan), var(--violet));
+  margin:.5rem auto;
+  border-radius:1px;
+}
+
+/* ── TOPIC GRID ── */
+.topic-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  gap:1.5rem;
+}
+
+/* ── CARD ── */
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.8rem;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+  cursor:pointer;
+}
+
+.card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0;
+  right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity:0;
+  transition: opacity .3s;
+}
+
+.card:hover {
+  transform:translateY(-6px) scale(1.01);
+  border-color:rgba(0,245,255,.35);
+  box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 40px rgba(0,245,255,.08);
+}
+
+.card:hover::before { opacity:1; }
+
+.card-icon {
+  font-size:2.5rem;
+  margin-bottom:1rem;
+  display:block;
+  filter:drop-shadow(0 0 10px currentColor);
+}
+
+.card-tag {
+  font-family:var(--font-display);
+  font-size:.6rem;
+  letter-spacing:.15em;
+  padding:.3rem .8rem;
+  border-radius:50px;
+  display:inline-block;
+  margin-bottom:.8rem;
+}
+
+.tag-cyan { background:rgba(0,245,255,.1); color:var(--cyan); border:1px solid rgba(0,245,255,.2); }
+.tag-violet { background:rgba(191,0,255,.1); color:#d966ff; border:1px solid rgba(191,0,255,.2); }
+.tag-green { background:rgba(0,255,136,.1); color:var(--green); border:1px solid rgba(0,255,136,.2); }
+.tag-orange { background:rgba(255,107,0,.1); color:#ff9944; border:1px solid rgba(255,107,0,.2); }
+.tag-blue { background:rgba(0,102,255,.1); color:#66aaff; border:1px solid rgba(0,102,255,.2); }
+
+.card h3 {
+  font-family:var(--font-display);
+  font-size:1rem;
+  margin-bottom:.8rem;
+  color:#fff;
+  line-height:1.3;
+}
+
+.card p, .card li {
+  font-family:'Noto Sans Bengali', var(--font-body);
+  font-size:.88rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.card ul { list-style:none; }
+.card ul li { padding:.25rem 0; display:flex; align-items:flex-start; gap:.5rem; }
+.card ul li::before { content:'▸'; color:var(--cyan); flex-shrink:0; margin-top:.1rem; }
+
+/* ── 3D FLIP CARD ── */
+.flip-wrapper {
+  perspective:1000px;
+  height:260px;
+}
+
+.flip-card {
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.23,1,.32,1);
+}
+
+.flip-wrapper:hover .flip-card { transform:rotateY(180deg); }
+
+.flip-front, .flip-back {
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:16px;
+  padding:1.8rem;
+  border:1px solid var(--border);
+}
+
+.flip-front {
+  background:var(--card);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.flip-back {
+  background:linear-gradient(135deg, #0a1628, #0d1f3c);
+  transform:rotateY(180deg);
+  border-color:rgba(0,245,255,.3);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow-y:auto;
+}
+
+/* ── BIG INFO CARD ── */
+.info-block {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2.5rem;
+  margin-bottom:2rem;
+  position:relative;
+  overflow:hidden;
+}
+
+.info-block::after {
+  content:'';
+  position:absolute;
+  top:-50%;
+  right:-20%;
+  width:300px; height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,245,255,.04), transparent 70%);
+  pointer-events:none;
+}
+
+.info-block h2 {
+  font-family:var(--font-display);
+  font-size:1.4rem;
+  color:var(--cyan);
+  margin-bottom:1.5rem;
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+}
+
+.info-block h2 .num {
+  width:36px; height:36px;
+  background:rgba(0,245,255,.1);
+  border:1px solid rgba(0,245,255,.3);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.85rem;
+  flex-shrink:0;
+}
+
+/* ── TABLE ── */
+.data-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:.85rem;
+  margin-top:1rem;
+  font-family:'Noto Sans Bengali', var(--font-body);
+}
+
+.data-table th {
+  background:rgba(0,245,255,.08);
+  color:var(--cyan);
+  font-family:var(--font-display);
+  font-size:.7rem;
+  letter-spacing:.1em;
+  padding:.8rem 1rem;
+  text-align:left;
+  border:1px solid var(--border);
+}
+
+.data-table td {
+  padding:.7rem 1rem;
+  border:1px solid rgba(255,255,255,.05);
+  color:var(--muted);
+}
+
+.data-table tr:hover td { background:rgba(0,245,255,.03); color:var(--text); }
+
+/* ── BANDWIDTH CALC ── */
+.calc-box {
+  background:linear-gradient(135deg, #0a1628, #0d1f3c);
+  border:1px solid rgba(0,245,255,.25);
+  border-radius:20px;
+  padding:2.5rem;
+  max-width:500px;
+  margin:2rem auto;
+}
+
+.calc-box h3 {
+  font-family:var(--font-display);
+  font-size:1rem;
+  color:var(--cyan);
+  text-align:center;
+  margin-bottom:1.5rem;
+  letter-spacing:.1em;
+}
+
+.input-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+
+.input-group label {
+  display:block;
+  font-size:.75rem;
+  color:var(--muted);
+  margin-bottom:.4rem;
+  letter-spacing:.05em;
+  font-family:'Noto Sans Bengali', var(--font-body);
+}
+
+.input-group input {
+  width:100%;
+  padding:.7rem 1rem;
+  background:rgba(0,0,0,.4);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:#fff;
+  font-size:1rem;
+  font-family:var(--font-display);
+  outline:none;
+  transition:border-color .3s;
+}
+
+.input-group input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,245,255,.1); }
+
+.calc-btn {
+  width:100%;
+  padding:1rem;
+  background:linear-gradient(135deg, var(--cyan), var(--blue));
+  border:none;
+  border-radius:10px;
+  color:#000;
+  font-family:var(--font-display);
+  font-size:.85rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  cursor:pointer;
+  margin-top:.5rem;
+  transition:all .3s;
+}
+
+.calc-btn:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,245,255,.3); }
+
+.calc-result {
+  margin-top:1.5rem;
+  padding:1rem;
+  background:rgba(0,245,255,.05);
+  border:1px solid rgba(0,245,255,.2);
+  border-radius:10px;
+  text-align:center;
+  font-family:var(--font-display);
+  display:none;
+}
+
+.calc-result.show { display:block; }
+.calc-result .result-val { font-size:2rem; color:var(--cyan); font-weight:700; display:block; margin-top:.3rem; }
+.calc-result .result-band { font-size:.75rem; color:var(--green); margin-top:.3rem; }
+
+/* ── TRANSMISSION MODES ── */
+.modes-row {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+.mode-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2rem 1.5rem;
+  text-align:center;
+  transition:all .4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.mode-card:hover {
+  border-color:rgba(0,245,255,.4);
+  transform:translateY(-5px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+
+.mode-arrow {
+  font-size:2rem;
+  margin-bottom:1rem;
+  display:block;
+}
+
+.mode-card h4 {
+  font-family:var(--font-display);
+  font-size:.9rem;
+  color:#fff;
+  margin-bottom:.5rem;
+}
+
+.mode-card p {
+  font-size:.82rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+}
+
+.mode-example {
+  margin-top:.8rem;
+  font-size:.75rem;
+  padding:.3rem .8rem;
+  background:rgba(0,245,255,.08);
+  border-radius:20px;
+  color:var(--cyan);
+  display:inline-block;
+}
+
+/* ── CABLE VIS ── */
+.cables-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2rem;
+}
+
+.cable-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  transition:all .4s;
+}
+
+.cable-card:hover {
+  border-color:rgba(0,245,255,.35);
+  transform:translateY(-6px);
+  box-shadow:0 25px 60px rgba(0,0,0,.4);
+}
+
+.cable-visual {
+  height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+/* UTP cross section */
+.utp-vis {
+  background:linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.utp-center {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.wire-pair {
+  display:flex;
+  gap:4px;
+  align-items:center;
+}
+
+.wire {
+  width:14px; height:14px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  position:relative;
+}
+
+.wire::after {
+  content:'';
+  position:absolute;
+  inset:2px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+/* coaxial cross section */
+.coax-vis {
+  background:linear-gradient(135deg, #1a1220, #16101e);
+}
+
+.coax-ring {
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* fiber */
+.fiber-vis {
+  background:linear-gradient(135deg, #0a1a2e, #061428);
+}
+
+.fiber-beam {
+  width:160px; height:20px;
+  background:linear-gradient(90deg, transparent, rgba(0,245,255,.8), transparent);
+  border-radius:10px;
+  position:relative;
+  filter:blur(2px);
+}
+
+.cable-info { padding:1.5rem; }
+
+.cable-info h3 {
+  font-family:var(--font-display);
+  font-size:.9rem;
+  color:#fff;
+  margin-bottom:1rem;
+}
+
+.spec-list { list-style:none; }
+.spec-list li {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:.35rem 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  font-size:.8rem;
+  font-family:'Noto Sans Bengali', var(--font-body);
+}
+
+.spec-list li:last-child { border-bottom:none; }
+.spec-key { color:var(--muted); }
+.spec-val { color:var(--cyan); font-family:var(--font-display); font-size:.75rem; }
+
+/* ── WIRELESS ── */
+.wireless-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+.wave-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2rem;
+  text-align:center;
+  transition:all .4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.wave-card::before {
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:200%;
+  height:100%;
+  background:radial-gradient(ellipse at center bottom, var(--wave-color, rgba(0,245,255,.05)) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.wave-card:hover {
+  transform:translateY(-6px);
+  border-color:var(--wave-border, rgba(0,245,255,.3));
+}
+
+.wave-icon-wrap {
+  width:70px; height:70px;
+  border-radius:50%;
+  margin:0 auto 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.8rem;
+  position:relative;
+}
+
+.wave-icon-wrap::after {
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:1px solid;
+  animation: ring-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0%,100% { transform:scale(1); opacity:.4; }
+  50% { transform:scale(1.15); opacity:.1; }
+}
+
+.wave-card h3 {
+  font-family:var(--font-display);
+  font-size:.95rem;
+  color:#fff;
+  margin-bottom:.6rem;
+}
+
+.freq-badge {
+  display:inline-block;
+  padding:.25rem .8rem;
+  border-radius:20px;
+  font-family:var(--font-display);
+  font-size:.65rem;
+  letter-spacing:.05em;
+  margin-bottom:.8rem;
+}
+
+.wave-card p {
+  font-size:.82rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+}
+
+/* ── MOBILE GEN ── */
+.gen-timeline {
+  position:relative;
+  padding-left:2rem;
+}
+
+.gen-timeline::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:2px;
+  background:linear-gradient(var(--cyan), var(--violet));
+}
+
+.gen-item {
+  position:relative;
+  margin-bottom:2rem;
+  padding:1.5rem 2rem;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:all .3s;
+}
+
+.gen-item::before {
+  content:'';
+  position:absolute;
+  left:-2.5rem; top:1.8rem;
+  width:12px; height:12px;
+  border-radius:50%;
+  background:var(--cyan);
+  border:2px solid var(--dark);
+  box-shadow:0 0 10px var(--cyan);
+}
+
+.gen-item:hover {
+  border-color:rgba(0,245,255,.3);
+  transform:translateX(6px);
+}
+
+.gen-header {
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+
+.gen-badge {
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  font-weight:900;
+  color:var(--cyan);
+  filter:drop-shadow(0 0 10px var(--cyan));
+}
+
+.gen-name {
+  font-family:var(--font-display);
+  font-size:.9rem;
+  color:#fff;
+}
+
+.gen-era { font-size:.75rem; color:var(--muted); }
+
+.gen-features {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+
+.feat-tag {
+  font-size:.72rem;
+  padding:.25rem .7rem;
+  border-radius:20px;
+  font-family:var(--font-body);
+}
+
+/* ── NETWORK TYPES ── */
+.network-types {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1rem;
+}
+
+.net-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem 1rem;
+  text-align:center;
+  transition:all .4s;
+}
+
+.net-card:hover {
+  border-color:rgba(0,245,255,.35);
+  transform:translateY(-5px);
+}
+
+.net-abbr {
+  font-family:var(--font-display);
+  font-size:2rem;
+  font-weight:900;
+  display:block;
+  margin-bottom:.5rem;
+}
+
+.net-full { font-size:.7rem; color:var(--muted); display:block; margin-bottom:.8rem; font-family:var(--font-display); }
+.net-range { font-family:var(--font-display); font-size:.65rem; padding:.3rem .7rem; border-radius:20px; display:inline-block; }
+
+.net-card p {
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:.8rem;
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.5;
+}
+
+/* ── DEVICES ── */
+.devices-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:1.2rem;
+}
+
+.device-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.5rem;
+  transition:all .3s;
+  text-align:center;
+}
+
+.device-card:hover {
+  border-color:rgba(0,245,255,.3);
+  transform:translateY(-4px);
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.device-icon { font-size:2.5rem; margin-bottom:.8rem; display:block; }
+
+.device-card h4 {
+  font-family:var(--font-display);
+  font-size:.85rem;
+  color:var(--cyan);
+  margin-bottom:.6rem;
+}
+
+.device-card p {
+  font-size:.8rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+}
+
+/* ── TOPOLOGY ── */
+.topo-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+.topo-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  transition:all .4s;
+}
+
+.topo-card:hover {
+  border-color:rgba(0,245,255,.35);
+  transform:translateY(-5px);
+}
+
+.topo-vis {
+  height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg, #080e1e, #0d1a30);
+  position:relative;
+}
+
+.topo-info { padding:1.5rem; }
+.topo-info h3 {
+  font-family:var(--font-display);
+  font-size:.9rem;
+  color:#fff;
+  margin-bottom:.8rem;
+}
+
+.topo-info p {
+  font-size:.8rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+}
+
+/* SVG topologies */
+.topo-svg { width:100%; height:100%; }
+
+/* ── CLOUD ── */
+.cloud-services {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+.cloud-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2rem;
+  text-align:center;
+  transition:all .4s;
+  position:relative;
+}
+
+.cloud-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 25px 60px rgba(0,0,0,.4);
+}
+
+.cloud-icon {
+  font-size:3rem;
+  margin-bottom:1rem;
+  display:block;
+}
+
+.cloud-card h3 {
+  font-family:var(--font-display);
+  font-size:1rem;
+  margin-bottom:.5rem;
+  color:#fff;
+}
+
+.cloud-sub {
+  font-size:.75rem;
+  color:var(--muted);
+  font-family:var(--font-display);
+  letter-spacing:.05em;
+  margin-bottom:1rem;
+}
+
+.cloud-card p {
+  font-size:.82rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+  margin-bottom:1rem;
+}
+
+.cloud-examples {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  justify-content:center;
+}
+
+.ex-chip {
+  font-size:.7rem;
+  padding:.2rem .6rem;
+  border-radius:20px;
+  background:rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--text);
+}
+
+/* ── QUICK REF TABLE ── */
+.qref {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+/* ── PROTOCOL COMP ── */
+.protocol-row {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+.proto-card {
+  background:var(--card);
+  border-radius:16px;
+  padding:1.8rem;
+  border:1px solid var(--border);
+  transition:all .3s;
+}
+
+.proto-card:hover {
+  border-color:rgba(0,245,255,.3);
+  transform:translateY(-4px);
+}
+
+.proto-card h4 {
+  font-family:var(--font-display);
+  font-size:1.2rem;
+  margin-bottom:.3rem;
+}
+
+.proto-full {
+  font-size:.75rem;
+  color:var(--muted);
+  font-family:var(--font-display);
+  margin-bottom:1.2rem;
+  display:block;
+}
+
+.proto-spec {
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+}
+
+.ps-row {
+  display:flex;
+  justify-content:space-between;
+  font-size:.8rem;
+  padding:.35rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.ps-key { color:var(--muted); font-family:'Noto Sans Bengali', var(--font-body); }
+.ps-val { color:var(--cyan); font-family:var(--font-display); font-size:.75rem; }
+
+/* ── EXAM TIPS ── */
+.tips-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.5rem;
+}
+
+.tip-card {
+  background:rgba(0,245,255,.04);
+  border:1px solid rgba(0,245,255,.15);
+  border-left:3px solid var(--cyan);
+  border-radius:12px;
+  padding:1.5rem;
+}
+
+.tip-card .tip-num {
+  font-family:var(--font-display);
+  font-size:2rem;
+  color:rgba(0,245,255,.2);
+  line-height:1;
+  display:block;
+  margin-bottom:.5rem;
+}
+
+.tip-card h4 {
+  font-family:var(--font-display);
+  font-size:.85rem;
+  color:var(--cyan);
+  margin-bottom:.6rem;
+}
+
+.tip-card p {
+  font-size:.83rem;
+  color:var(--muted);
+  font-family:'Noto Sans Bengali', var(--font-body);
+  line-height:1.6;
+}
+
+/* ── FOOTER ── */
+footer {
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:4rem 2rem;
+  border-top:1px solid var(--border);
+  margin-top:4rem;
+}
+
+footer h2 {
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  color:var(--cyan);
+  margin-bottom:.5rem;
+}
+
+footer p {
+  color:var(--muted);
+  font-size:.85rem;
+  font-family:'Noto Sans Bengali', var(--font-body);
+}
+
+/* ── ANIMATIONS ── */
+.fade-up {
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+
+.fade-up.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .modes-row,
+  .cables-grid,
+  .wireless-grid,
+  .network-types,
+  .topo-grid,
+  .cloud-services,
+  .protocol-row { grid-template-columns:1fr; }
+
+  .tips-grid { grid-template-columns:1fr; }
+}
+
+@media(max-width:600px) {
+  .hero-stats { gap:1.5rem; }
+  section { padding:3rem 1rem; }
+}
+
+/* ── GLOW LINES ── */
+.glow-line {
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  margin:3rem 0;
+  opacity:.3;
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box {
+  background:rgba(0,245,255,.05);
+  border:1px solid rgba(0,245,255,.2);
+  border-radius:12px;
+  padding:1.2rem 1.5rem;
+  margin:1rem 0;
+  font-family:'Noto Sans Bengali', var(--font-body);
+  font-size:.88rem;
+  color:var(--text);
+  line-height:1.7;
+}
+
+.highlight-box strong {
+  color:var(--cyan);
+  font-family:var(--font-display);
+  font-size:.8rem;
+}
+
+/* ── FORMULA BOX ── */
+.formula {
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(191,0,255,.2);
+  border-radius:8px;
+  padding:1rem 1.5rem;
+  font-family:var(--font-display);
+  font-size:1rem;
+  color:#d966ff;
+  text-align:center;
+  letter-spacing:.05em;
+  margin:1rem 0;
+}
+
+/* progress bar */
+.progress-bar {
+  height:4px;
+  background:rgba(0,245,255,.15);
+  border-radius:2px;
+  margin:.5rem 0;
+  overflow:hidden;
+}
+
+.progress-fill {
+  height:100%;
+  border-radius:2px;
+  background:linear-gradient(90deg, var(--cyan), var(--blue));
+  transition:width 1.5s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-particles" id="particles"></div>
+  
+  <div class="hero-badge">📡 HSC ICT • দ্বিতীয় অধ্যায় • সম্পূর্ণ নোট •Pavel Ibrahim</div>
+  
+  <h1 class="hero-title">কমিউনিকেশন<br>সিস্টেম ও নেটওয়ার্কিং</h1>
+  <p class="hero-subtitle">যোগাযোগ ব্যবস্থা ও নেটওয়ার্কিং</p>
+  <p class="hero-meta">Pavel | Bangladesh Open University | CSE-401</p>
+  
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">12</span>
+      <span class="stat-label">টপিক</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">100+</span>
+      <span class="stat-label">MCQ</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">5G</span>
+      <span class="stat-label">পর্যন্ত</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">জ্ঞান</span>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">SCROLL DOWN</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#data-comm" class="nav-link">ডেটা কমিউনিকেশন</a>
+    <a href="#bandwidth" class="nav-link">ব্যান্ডউইথ</a>
+    <a href="#trans-method" class="nav-link">ট্রান্সমিশন মেথড</a>
+    <a href="#trans-mode" class="nav-link">ট্রান্সমিশন মোড</a>
+    <a href="#cables" class="nav-link">তার মাধ্যম</a>
+    <a href="#wireless" class="nav-link">তারবিহীন মাধ্যম</a>
+    <a href="#wcomm" class="nav-link">WiFi/Bluetooth</a>
+    <a href="#mobile" class="nav-link">মোবাইল প্রজন্ম</a>
+    <a href="#networks" class="nav-link">নেটওয়ার্ক</a>
+    <a href="#devices" class="nav-link">নেটওয়ার্ক ডিভাইস</a>
+    <a href="#topology" class="nav-link">টপোলজি</a>
+    <a href="#cloud" class="nav-link">ক্লাউড</a>
+  </div>
+</nav>
+
+
+<!-- ════════════════════ 1. DATA COMMUNICATION ════════════════════ -->
+<section id="data-comm">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 01</span>
+    <h2 class="section-title">ডেটা <span>কমিউনিকেশন</span> সিস্টেম</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--muted);font-family:'Noto Sans Bengali',sans-serif;font-size:.9rem;">Data Communication System</p>
+  </div>
+
+  <div class="info-block fade-up">
+    <h2><span class="num">📡</span>ডেটা কমিউনিকেশন কী?</h2>
+    <div class="highlight-box">
+      <strong>সংজ্ঞা:</strong> দুটি বা ততোধিক ডিভাইসের মধ্যে ডেটা বা তথ্যের বিনিময়ের প্রক্রিয়াকে <strong>ডেটা কমিউনিকেশন</strong> বলে। এটি একটি নেটওয়ার্কের মাধ্যমে সম্পন্ন হয়।
+    </div>
+    <div class="highlight-box">
+      <strong>ডেটা কমিউনিকেশন এর ৫টি মৌলিক উপাদান রয়েছে।</strong><br>
+      (MCQ: উপাদান সংখ্যা = <strong style="color:var(--green)">৫</strong>)
+    </div>
+
+    <div class="topic-grid" style="margin-top:1.5rem">
+      <div class="card" style="border-color:rgba(0,245,255,.2)">
+        <span class="card-icon">🎤</span>
+        <span class="card-tag tag-cyan">উপাদান ১</span>
+        <h3>উৎস (Source)</h3>
+        <ul>
+          <li>ক্যামেরা</li>
+          <li>মাইক্রোফোন</li>
+          <li>কম্পিউটার কী-বোর্ড</li>
+          <li>যে ডিভাইস থেকে ডেটা উৎপন্ন হয়</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color:rgba(191,0,255,.2)">
+        <span class="card-icon">📡</span>
+        <span class="card-tag tag-violet">উপাদান ২</span>
+        <h3>প্রেরক (Transmitter)</h3>
+        <ul>
+          <li>মডেম</li>
+          <li>রাউটার</li>
+          <li>টিভি কেন্দ্র</li>
+          <li>টেলিফোন ও মোবাইল ফোন</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color:rgba(0,255,136,.2)">
+        <span class="card-icon">🔗</span>
+        <span class="card-tag tag-green">উপাদান ৩</span>
+        <h3>মাধ্যম (Medium)</h3>
+        <ul>
+          <li><strong>তার:</strong> কো-এক্সিয়াল, টুইস্টেড পেয়ার, ফাইবার অপটিক</li>
+          <li><strong>তারবিহীন:</strong> রেডিও ওয়েভ, মাইক্রোওয়েভ, ইনফ্রারেড</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color:rgba(255,107,0,.2)">
+        <span class="card-icon">📻</span>
+        <span class="card-tag tag-orange">উপাদান ৪</span>
+        <h3>প্রাপক (Receiver)</h3>
+        <ul>
+          <li>মডেম</li>
+          <li>রাউটার</li>
+          <li>টেলিফোন এক্সচেঞ্জার</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color:rgba(0,102,255,.2)">
+        <span class="card-icon">💻</span>
+        <span class="card-tag tag-blue">উপাদান ৫</span>
+        <h3>গন্তব্য (Destination)</h3>
+        <ul>
+          <li>লাউড স্পিকার</li>
+          <li>টেলিফোন</li>
+          <li>কম্পিউটার</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <!-- ⭐ EXAM TIPS -->
+  <div class="highlight-box fade-up" style="border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ পরীক্ষায় আসা প্রশ্ন:</strong><br>
+    • ডেটা কমিউনিকেশনের মূল/মৌলিক উপাদান = <strong style="color:var(--green)">৫টি</strong><br>
+    • উৎস: কম্পিউটার ✓ | মডেম = প্রেরক ✓ | ফাইবার অপটিক্স = মাধ্যম ✓<br>
+    • ডেটা কমিউনিকেশন = দুটি ডিভাইসের মধ্যে তথ্যের বিনিময় [ঢা. বো. ২০১৬]<br>
+    • প্রেরক ও প্রাপককে সংযুক্ত করে = <strong style="color:var(--cyan)">মাধ্যম / চ্যানেল</strong>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 2. BANDWIDTH ════════════════════ -->
+<section id="bandwidth">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 02</span>
+    <h2 class="section-title">ব্যান্ডউইথ ও <span>ট্রান্সমিশন স্পিড</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="info-block fade-up">
+    <h2><span class="num">📊</span>ব্যান্ডউইথ (Bandwidth)</h2>
+    <div class="highlight-box">
+      <strong>সংজ্ঞা:</strong> প্রতি সেকেন্ডে যে পরিমাণ ডেটা ট্রান্সফার হয় তাকে ব্যান্ডউইথ বলে। এটি ডেটা স্থানান্তরের হার।
+    </div>
+    <div class="formula">ব্যান্ডউইথ = মোট ডেটা ÷ সময় (bps)</div>
+    <div class="highlight-box">
+      <strong>ব্যান্ডউইথ নির্ভর করে → মাধ্যমের উপর</strong><br>
+      ক্ষুদ্রতম একক → <strong style="color:var(--green)">bps (bit per second)</strong>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <h3 style="font-family:var(--font-display);font-size:.9rem;color:#fff;margin-bottom:1rem">ডেটা ট্রান্সমিশন স্পিড — ৩ প্রকার:</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ব্যান্ড</th>
+            <th>স্পিড রেঞ্জ</th>
+            <th>ব্যবহার</th>
+            <th>উদাহরণ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="color:#ff6b6b;font-family:var(--font-display)">ন্যারো ব্যান্ড</span></td>
+            <td><span style="color:var(--cyan);font-family:var(--font-display)">45 – 300 bps</span></td>
+            <td>টেলিগ্রাফিতে</td>
+            <td>টেলিগ্রাফ</td>
+          </tr>
+          <tr>
+            <td><span style="color:#ffd700;font-family:var(--font-display)">ভয়েস ব্যান্ড</span></td>
+            <td><span style="color:var(--cyan);font-family:var(--font-display)">1200 – 9600 bps</span></td>
+            <td>টেলিফোনে</td>
+            <td>টেলিফোন লাইন</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--green);font-family:var(--font-display)">ব্রড ব্যান্ড</span></td>
+            <td><span style="color:var(--cyan);font-family:var(--font-display)">1 Mbps+</span></td>
+            <td>স্যাটেলাইট</td>
+            <td>ইন্টারনেট, ফাইবার</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <h3 style="font-family:var(--font-display);font-size:.9rem;color:#fff;margin-bottom:1rem">ডেটা ইউনিট রূপান্তর:</h3>
+      <table class="data-table">
+        <thead><tr><th>একক</th><th>পূর্ণ নাম</th><th>মান</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--cyan);font-family:var(--font-display)">bps</td><td>bit per second</td><td>প্রতি সে. ১ বিট</td></tr>
+          <tr><td style="color:var(--cyan);font-family:var(--font-display)">kbps</td><td>kilobit per second</td><td>প্রতি সে. ১,০০০ বিট</td></tr>
+          <tr><td style="color:var(--cyan);font-family:var(--font-display)">Mbps</td><td>megabit per second</td><td>প্রতি সে. ১০ লক্ষ বিট</td></tr>
+          <tr><td style="color:var(--cyan);font-family:var(--font-display)">Gbps</td><td>gigabit per second</td><td>প্রতি সে. ১০০ কোটি বিট</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 🔢 CALCULATOR -->
+  <div class="calc-box fade-up">
+    <h3>🔢 ব্যান্ডউইথ ক্যালকুলেটর</h3>
+    <div class="input-row">
+      <div class="input-group">
+        <label>মোট ডেটা (বিট)</label>
+        <input type="number" id="data-bits" placeholder="যেমন: 9000">
+      </div>
+      <div class="input-group">
+        <label>সময় (সেকেন্ড)</label>
+        <input type="number" id="time-sec" placeholder="যেমন: 5">
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcBandwidth()">ব্যান্ডউইথ হিসাব করো</button>
+    <div class="calc-result" id="calc-result">
+      <span>ব্যান্ডউইথ =</span>
+      <span class="result-val" id="result-val">—</span>
+      <div class="result-band" id="result-band"></div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-up" style="border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ গুরুত্বপূর্ণ MCQ:</strong><br>
+    • 4s এ 32kb = 32000÷4 = <strong style="color:var(--green)">8 kbps</strong> [য. বোর্ড-২৪]<br>
+    • 5s এ 9000 bit = 9000÷5 = <strong style="color:var(--green)">1800 bps</strong> = ভয়েস ব্যান্ড [সি/ম. বোর্ড ২০২৩]<br>
+    • 9s এ 8100 bit = 8100÷9 = <strong style="color:var(--green)">900 bps</strong> = ভয়েস ব্যান্ড<br>
+    • ন্যারো ব্যান্ড সর্বনিম্ন = <strong style="color:var(--green)">45 bps</strong> [ঢা. বো. ২০১৬]<br>
+    • ব্রডব্যান্ড = <strong style="color:var(--green)">1 Mbps বা অধিক</strong> [কু. বো. ২০১৬]
+  </div>
+
+  <div style="margin-top:2rem" class="fade-up">
+    <h3 style="font-family:var(--font-display);font-size:.95rem;color:#fff;margin-bottom:1rem;text-align:center">বিভিন্ন সার্ভিসের প্রয়োজনীয় ব্যান্ডউইথ:</h3>
+    <table class="data-table">
+      <thead><tr><th>সার্ভিস</th><th>প্রয়োজনীয় ব্যান্ডউইথ</th></tr></thead>
+      <tbody>
+        <tr><td>VoIP ফোন কল</td><td style="color:var(--green);font-family:var(--font-display)">0.5 Mbps</td></tr>
+        <tr><td>SD ভিডিও কনফারেন্সিং</td><td style="color:var(--green);font-family:var(--font-display)">1 Mbps</td></tr>
+        <tr><td>HD ভিডিও কনফারেন্সিং (HID)</td><td style="color:var(--cyan);font-family:var(--font-display)">1.5 Mbps</td></tr>
+        <tr><td>4K ভিডিও স্ট্রিমিং</td><td style="color:var(--violet);font-family:var(--font-display)">4 Mbps+</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 3. TRANSMISSION METHOD ════════════════════ -->
+<section id="trans-method">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 03</span>
+    <h2 class="section-title">ডেটা ট্রান্সমিশন <span>মেথড</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="info-block fade-up">
+    <h2><span class="num">🔄</span>বিট সিনক্রোনাইজেশন</h2>
+    <div class="highlight-box">
+      <strong>বিট সিনক্রোনাইজেশন</strong> হলো বিট প্রেরণের সমন্বিত পদ্ধতি — অর্থাৎ বিটের শুরু ও শেষ বুঝতে পারার ব্যবস্থা।<br>
+      এটি <strong>Timing Control</strong> নামেও পরিচিত।
+    </div>
+    <div class="highlight-box">
+      সিনক্রোনাইজেশনের উপর ভিত্তি করে ডেটা ট্রান্সমিশন = <strong style="color:var(--green)">৩ প্রকার</strong><br>
+      লাইন ইন্টারফেসের উপর ভিত্তি করে = <strong style="color:var(--green)">২ প্রকার</strong> (Serial ও Parallel)
+    </div>
+  </div>
+
+  <div class="topic-grid fade-up" style="margin-top:1.5rem">
+
+    <!-- ASYNC -->
+    <div class="card">
+      <span class="card-icon" style="color:#ff9944">⚡</span>
+      <span class="card-tag tag-orange">অ্যাসিনক্রোনাস</span>
+      <h3>Asynchronous Transmission</h3>
+      <ul>
+        <li>ক্যারেক্টার বাই ক্যারেক্টার ডেটা ট্রান্সমিট হয়</li>
+        <li>প্রতিটি ক্যারেক্টারের শুরুতে <strong style="color:var(--cyan)">Start Bit</strong></li>
+        <li>প্রতিটি ক্যারেক্টারের শেষে <strong style="color:var(--cyan)">Stop Bit</strong></li>
+        <li>প্রতিবার <strong style="color:var(--green)">১০ বিট</strong> স্থানান্তরিত হয়</li>
+        <li>প্রাইমারি স্টোরেজ প্রয়োজন হয় না ✓</li>
+        <li>যেকোনো সময় ডেটা প্রেরণ সম্ভব ✓</li>
+      </ul>
+      <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted)">
+        উদাহরণ: কিবোর্ড → CPU, কম্পিউটার → প্রিন্টার
+      </div>
+    </div>
+
+    <!-- SYNC -->
+    <div class="card">
+      <span class="card-icon" style="color:var(--cyan)">🔁</span>
+      <span class="card-tag tag-cyan">সিনক্রোনাস</span>
+      <h3>Synchronous Transmission</h3>
+      <ul>
+        <li>ব্লক বা ফ্রেম আকারে ডেটা ট্রান্সমিট হয়</li>
+        <li>বিরতিহীন ডেটা ট্রান্সমিশন ✓</li>
+        <li>প্রাইমারি স্টোরেজ ডিভাইস প্রয়োজন হয়</li>
+        <li>তুলনামূলক ব্যয়বহুল</li>
+        <li>উচ্চ গতিতে ডেটা ট্রান্সমিশন সম্ভব</li>
+        <li>কম্পিউটার → কম্পিউটার</li>
+      </ul>
+      <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted)">
+        উদাহরণ: C2C নেটওয়ার্ক, স্যাটেলাইট
+      </div>
+    </div>
+
+    <!-- ISOCHRON -->
+    <div class="card">
+      <span class="card-icon" style="color:var(--green)">⏱️</span>
+      <span class="card-tag tag-green">আইসোক্রোনাস</span>
+      <h3>Isochronous Transmission</h3>
+      <ul>
+        <li>রিয়েল টাইম অ্যাপ্লিকেশনে ব্যবহৃত হয়</li>
+        <li>ডেটা ট্রান্সমিশন ডিলে সর্বনিম্ন ✓</li>
+        <li>লাইভ ভিডিও স্ট্রিমিং ও অডিওতে ব্যবহার</li>
+        <li>লাইভ টিভি সম্প্রচারে ব্যবহৃত হয়</li>
+      </ul>
+      <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted)">
+        উদাহরণ: লাইভ TV, ভিডিও কনফারেন্স, VoIP
+      </div>
+    </div>
+
+    <!-- Parallel vs Serial -->
+    <div class="card">
+      <span class="card-icon" style="color:#d966ff">🔀</span>
+      <span class="card-tag tag-violet">প্যারালাল</span>
+      <h3>Parallel Transmission</h3>
+      <ul>
+        <li>একই সময়ে একাধিক বিট ট্রান্সমিশন</li>
+        <li>লাইন/চ্যানেল সংখ্যা ৮ বা ৮ এর গুণিতক</li>
+        <li>স্বল্প দূরত্বে উপযুক্ত</li>
+        <li>কম্পিউটার → প্রিন্টার</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="card-icon" style="color:#66aaff">➡️</span>
+      <span class="card-tag tag-blue">সিরিয়াল</span>
+      <h3>Serial Transmission</h3>
+      <ul>
+        <li>একটি লাইনে একটি বিট করে ট্রান্সমিট হয়</li>
+        <li>দীর্ঘ দূরত্বে উপযুক্ত</li>
+        <li>সাশ্রয়ী</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ MCQ টিপস:</strong><br>
+    • কিবোর্ড → CPU = <strong style="color:var(--green)">অ্যাসিনক্রোনাস</strong><br>
+    • কম্পিউটার → প্রিন্টার = <strong style="color:var(--green)">প্যারালাল + অ্যাসিনক্রোনাস</strong><br>
+    • রিয়েল টাইম = <strong style="color:var(--green)">আইসোক্রোনাস</strong><br>
+    • লাইভ TV = <strong style="color:var(--green)">আইসোক্রোনাস</strong><br>
+    • প্যাকেট/ব্লক/ফ্রেম আকারে = <strong style="color:var(--green)">সিনক্রোনাস ও আইসোক্রোনাস</strong>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 4. TRANSMISSION MODE ════════════════════ -->
+<section id="trans-mode">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 04</span>
+    <h2 class="section-title">ডেটা ট্রান্সমিশন <span>মোড</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="info-block fade-up">
+    <div class="highlight-box">
+      ডেটা প্রবাহের দিককে <strong>ডেটা ট্রান্সমিশন মোড</strong> বলে।<br>
+      ডেটা ট্রান্সমিশন মোড = <strong style="color:var(--green)">৩ প্রকার</strong> [মা. বো. ২০১৭]
+    </div>
+  </div>
+
+  <div class="modes-row fade-up">
+    <div class="mode-card">
+      <span class="mode-arrow">➡️</span>
+      <h4>সিমপ্লেক্স (Simplex)</h4>
+      <p>একদিকে ডেটা প্রেরণ হয়, উভয়দিকে নয়। প্রেরক শুধু পাঠায়, প্রাপক শুধু গ্রহণ করে।</p>
+      <span class="mode-example">কী-বোর্ড → CPU | মাল্টিমিডিয়া প্রজেক্টর | রেডিও/TV সম্প্রচার</span>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-arrow">↔️</span>
+      <h4>হাফ-ডুপ্লেক্স (Half-Duplex)</h4>
+      <p>উভয়দিকে ডেটা যায়, তবে একই সময়ে নয়। একজন কথা বললে অন্যজন শুনতে হয়।</p>
+      <span class="mode-example">ওয়াকিটকি | ফ্যাক্স</span>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-arrow">⇄</span>
+      <h4>ফুল-ডুপ্লেক্স (Full-Duplex)</h4>
+      <p>একই সময়ে উভয়দিকে ডেটা স্থানান্তর হয়। একসাথে বলা ও শোনা সম্ভব।</p>
+      <span class="mode-example">মোবাইল ফোন | ল্যান্ড ফোন | ইন্টারনেট</span>
+    </div>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <div class="section-header fade-up" style="margin-top:1rem">
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#fff">ডেটা ডেলিভারি মোড <span style="color:var(--cyan)">(প্রাপকের সংখ্যার উপর ভিত্তি করে)</span></h3>
+    <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem;font-family:'Noto Sans Bengali',sans-serif">প্রাপকের সংখ্যা ও ডেটা গ্রহণের অধিকারের উপর ভিত্তি করে = ৩ প্রকার</p>
+  </div>
+
+  <div class="modes-row fade-up">
+    <div class="mode-card">
+      <span class="mode-arrow" style="font-size:1.5rem">📨</span>
+      <h4 style="color:var(--cyan)">ইউনিকাস্ট (Unicast)</h4>
+      <p>এক প্রেরক → এক নির্দিষ্ট প্রাপক। Single SMS প্রদান।</p>
+      <span class="mode-example">Single SMS | ব্যক্তিগত ইমেইল</span>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-arrow" style="font-size:1.5rem">📢</span>
+      <h4 style="color:#d966ff">মাল্টিকাস্ট (Multicast)</h4>
+      <p>এক প্রেরক → নির্দিষ্ট কিছু প্রাপক। Group SMS বা চ্যাটিং।</p>
+      <span class="mode-example">গ্রুপ SMS | ভিডিও কনফারেন্সিং | চ্যাটিং</span>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-arrow" style="font-size:1.5rem">📡</span>
+      <h4 style="color:var(--orange)">ব্রডকাস্ট (Broadcast)</h4>
+      <p>এক প্রেরক → সকল প্রাপক। সবাই গ্রহণ করতে পারে।</p>
+      <span class="mode-example">রেডিও | টিভি সম্প্রচার | হাব</span>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ গুরুত্বপূর্ণ MCQ:</strong><br>
+    • রেডিও ও টেলিভিশন = <strong style="color:var(--green)">সিমপ্লেক্স + ব্রডকাস্ট</strong><br>
+    • কি-বোর্ড ও কম্পিউটার = <strong style="color:var(--green)">সিমপ্লেক্স</strong> [য. বোর্ড-২৪]<br>
+    • মোবাইল ফোনে কথোপকথন = <strong style="color:var(--green)">ফুল-ডুপ্লেক্স</strong> [মা. বো. ২০১৬]<br>
+    • ওয়াকিটকি = <strong style="color:var(--green)">হাফ-ডুপ্লেক্স</strong><br>
+    • Single SMS = <strong style="color:var(--green)">ইউনিকাস্ট</strong> [ম. বোর্ড-২৪]<br>
+    • গ্রুপ SMS = <strong style="color:var(--green)">মাল্টিকাস্ট</strong> [সি. বো. ২০১৭]<br>
+    • ব্রডকাস্টে বেশি ব্যবহৃত মাধ্যম = <strong style="color:var(--green)">রেডিও ওয়েভ</strong>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 5. CABLES ════════════════════ -->
+<section id="cables">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 05</span>
+    <h2 class="section-title">তার <span>মাধ্যম</span> (Guided Media)</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="cables-grid fade-up">
+
+    <!-- UTP -->
+    <div class="cable-card">
+      <div class="cable-visual utp-vis">
+        <div style="position:relative;z-index:1;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px;">
+            <div class="wire-pair">
+              <div class="wire" style="color:#ff8800;width:18px;height:18px;"></div>
+              <div class="wire" style="color:#ffffff;width:18px;height:18px;"></div>
+            </div>
+            <div class="wire-pair">
+              <div class="wire" style="color:#00aa00;width:18px;height:18px;"></div>
+              <div class="wire" style="color:#ffffff;width:18px;height:18px;"></div>
+            </div>
+            <div class="wire-pair">
+              <div class="wire" style="color:#0044ff;width:18px;height:18px;"></div>
+              <div class="wire" style="color:#ffffff;width:18px;height:18px;"></div>
+            </div>
+            <div class="wire-pair">
+              <div class="wire" style="color:#996600;width:18px;height:18px;"></div>
+              <div class="wire" style="color:#ffffff;width:18px;height:18px;"></div>
+            </div>
+          </div>
+          <div style="position:absolute;inset:0;border-radius:50%;border:3px solid rgba(150,100,50,.3);"></div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-size:.6rem;color:rgba(255,255,255,.4);white-space:nowrap">Cross Section (4 pair)</div>
+      </div>
+      <div class="cable-info">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+          <h3 style="font-size:.85rem">টুইস্টেড পেয়ার ক্যাবল</h3>
+          <span style="font-family:var(--font-display);font-size:.6rem;color:var(--muted)">UTP/STP</span>
+        </div>
+        <ul class="spec-list">
+          <li><span class="spec-key">গঠন</span><span class="spec-val">4 জোড়া মোড়ানো তার</span></li>
+          <li><span class="spec-key">কমন রং</span><span class="spec-val">সাদা</span></li>
+          <li><span class="spec-key">গতি</span><span class="spec-val">10 Mbps – 1 Gbps</span></li>
+          <li><span class="spec-key">দূরত্ব</span><span class="spec-val">≤100 মিটার</span></li>
+          <li><span class="spec-key">ব্যবহার</span><span class="spec-val">LAN, শিক্ষা প্রতিষ্ঠান</span></li>
+          <li><span class="spec-key">ক্রসটক</span><span class="spec-val">কমানোর জন্য পেঁচানো হয়</span></li>
+        </ul>
+        <div class="highlight-box" style="margin-top:.8rem;padding:.6rem .8rem;font-size:.75rem">
+          <strong>দুটি তারের সংকেত একটি আরেকটিকে প্রভাবিত করলে = ক্রসটক (Crosstalk)</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coaxial -->
+    <div class="cable-card">
+      <div class="cable-visual coax-vis">
+        <div style="position:relative">
+          <div style="width:110px;height:110px;border-radius:50%;background:rgba(100,60,20,.15);border:12px solid rgba(100,60,20,.3);display:flex;align-items:center;justify-content:center">
+            <div style="width:70px;height:70px;border-radius:50%;background:rgba(60,60,60,.3);border:8px solid rgba(180,180,180,.15);display:flex;align-items:center;justify-content:center">
+              <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,160,0,.5);"></div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-size:.55rem;color:rgba(255,255,255,.35);white-space:nowrap;text-align:center">কন্ডাক্টর • ডাই-ইলেক্ট্রিক • শিল্ড • জ্যাকেট</div>
+        </div>
+      </div>
+      <div class="cable-info">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+          <h3 style="font-size:.85rem">কো-এক্সিয়াল ক্যাবল</h3>
+          <span style="font-family:var(--font-display);font-size:.6rem;color:var(--muted)">Coaxial</span>
+        </div>
+        <ul class="spec-list">
+          <li><span class="spec-key">প্রকার</span><span class="spec-val">থিকনেট (10BASE-5) ও থিননেট (10BASE-2)</span></li>
+          <li><span class="spec-key">সাধারণ গতি</span><span class="spec-val">10 Mbps</span></li>
+          <li><span class="spec-key">সর্বোচ্চ</span><span class="spec-val">200 Mbps</span></li>
+          <li><span class="spec-key">ব্যবহার</span><span class="spec-val">টেলিফোন, ক্যাবল TV</span></li>
+          <li><span class="spec-key">10BASE-5</span><span class="spec-val">থিকনেট</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Fiber -->
+    <div class="cable-card">
+      <div class="cable-visual fiber-vis">
+        <div style="position:relative;width:180px">
+          <div class="fiber-beam" style="animation:fiber-glow 2s ease-in-out infinite alternate"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:30px;background:rgba(0,245,255,.9);border-radius:2px;filter:blur(1px)"></div>
+          <div style="position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-size:.55rem;color:rgba(0,245,255,.5);white-space:nowrap">কোর • ক্ল্যাডিং • বাফার • জ্যাকেট</div>
+        </div>
+      </div>
+      <div class="cable-info">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+          <h3 style="font-size:.85rem">ফাইবার অপটিক ক্যাবল</h3>
+          <span style="font-family:var(--font-display);font-size:.6rem;color:var(--cyan)">NON-METALLIC</span>
+        </div>
+        <ul class="spec-list">
+          <li><span class="spec-key">মাধ্যম</span><span class="spec-val">কাচ/স্বচ্ছ প্লাস্টিক</span></li>
+          <li><span class="spec-key">ব্যাস</span><span class="spec-val">150 মাইক্রন</span></li>
+          <li><span class="spec-key">কোর</span><span class="spec-val">8–100 মাইক্রন</span></li>
+          <li><span class="spec-key">Single Mode</span><span class="spec-val">8–12 মাইক্রন</span></li>
+          <li><span class="spec-key">Multi Mode</span><span class="spec-val">50–100 মাইক্রন</span></li>
+          <li><span class="spec-key">তরঙ্গদৈর্ঘ্য</span><span class="spec-val">1300nm / 1500nm</span></li>
+          <li><span class="spec-key">EMI</span><span class="spec-val">মুক্ত ✓</span></li>
+          <li><span class="spec-key">ব্যবহার</span><span class="spec-val">আন্তঃমহাদেশীয়</span></li>
+        </ul>
+        <div class="highlight-box" style="margin-top:.8rem;padding:.6rem .8rem;font-size:.75rem">
+          <strong>পূর্ণঅভ্যন্তরীণ প্রতিফলনের</strong> মাধ্যমে আলোক রশ্মি ডেটা বহন করে।
+          <br><strong>ফটোডিটেক্টর</strong> = আলোক শক্তি → বিদ্যুৎ শক্তি
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ পরীক্ষার টিপস:</strong><br>
+    • নন মেটালিক ক্যাবল = <strong style="color:var(--green)">ফাইবার অপটিক</strong> [ঢা. বোর্ড-২৪]<br>
+    • সর্বোচ্চ ডেটা ট্রান্সফার রেট = <strong style="color:var(--green)">ফাইবার অপটিক</strong><br>
+    • সর্ববোচ্চ ভেতরের অংশ = <strong style="color:var(--green)">কোর</strong> [মা. বো. ২০১৬]<br>
+    • আন্তঃমহাদেশীয় নেটওয়ার্কে = <strong style="color:var(--green)">ফাইবার অপটিক</strong><br>
+    • টুইস্টেড পেয়ার কমন রং = <strong style="color:var(--green)">সাদা</strong> [রা. বো. ২০১৬]<br>
+    • শিক্ষা প্রতিষ্ঠানে LAN = <strong style="color:var(--green)">টুইস্টেড পেয়ার</strong> [কু. বোর্ড ২০২৩]
+  </div>
+</section>
+
+<style>
+@keyframes fiber-glow {
+  0% { opacity:.6; filter:blur(2px); }
+  100% { opacity:1; filter:blur(0px); }
+}
+</style>
+
+<!-- ════════════════════ 6. WIRELESS ════════════════════ -->
+<section id="wireless">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 06</span>
+    <h2 class="section-title">তারবিহীন <span>মাধ্যম</span> (Unguided Media)</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="wireless-grid fade-up">
+
+    <!-- Radio Wave -->
+    <div class="wave-card" style="--wave-color:rgba(255,100,50,.06);--wave-border:rgba(255,100,50,.3)">
+      <div class="wave-icon-wrap" style="background:rgba(255,100,50,.1);border-color:rgba(255,100,50,.3)">
+        📻
+      </div>
+      <h3>রেডিও ওয়েভ</h3>
+      <span class="freq-badge" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">3 KHz – 300 GHz</span>
+      <p>যেকোনো বাধা (ভবন, পাহাড়) অতিক্রম করতে পারে। মোবাইল টাওয়ার ও মোবাইল ফোনের মধ্যে ব্যবহৃত হয়।</p>
+      <div style="margin-top:.8rem;font-size:.75rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+        ব্যবহার: AM/FM রেডিও, মোবাইল নেটওয়ার্ক
+      </div>
+    </div>
+
+    <!-- Microwave -->
+    <div class="wave-card" style="--wave-color:rgba(255,200,0,.05);--wave-border:rgba(255,200,0,.3)">
+      <div class="wave-icon-wrap" style="background:rgba(255,200,0,.1);border-color:rgba(255,200,0,.3)">
+        📡
+      </div>
+      <h3>মাইক্রোওয়েভ</h3>
+      <span class="freq-badge" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">300 MHz – 300 GHz</span>
+      <p>সরল রেখায় ভ্রমণ করে। টাওয়ার থেকে টাওয়ারে ব্যবহৃত হয়। টেরিস্ট্রিয়াল ও স্যাটেলাইট ২ প্রকার।</p>
+      <div style="margin-top:.8rem;font-size:.75rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+        <strong style="color:#ffd700">GEO স্যাটেলাইট:</strong> ভূমি থেকে 36,000 km উচ্চতায়
+      </div>
+    </div>
+
+    <!-- Infrared -->
+    <div class="wave-card" style="--wave-color:rgba(0,200,100,.05);--wave-border:rgba(0,200,100,.3)">
+      <div class="wave-icon-wrap" style="background:rgba(0,200,100,.1);border-color:rgba(0,200,100,.3)">
+        🔴
+      </div>
+      <h3>ইনফ্রারেড ওয়েভ</h3>
+      <span class="freq-badge" style="background:rgba(0,200,100,.1);color:#66ffaa;border:1px solid rgba(0,200,100,.2)">300 GHz – 400 THz</span>
+      <p>স্বল্প দূরত্বে ব্যবহৃত। দেয়াল বা শক্ত বাধা ভেদ করতে পারে না। দৃষ্টি রেখার মধ্যে সীমাবদ্ধ।</p>
+      <div style="margin-top:.8rem;font-size:.75rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+        ব্যবহার: TV রিমোট কন্ট্রোল, IrDA ডিভাইস
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ MCQ:</strong><br>
+    • মোবাইল টাওয়ার ↔ টাওয়ার = <strong style="color:var(--green)">মাইক্রোওয়েভ</strong><br>
+    • টাওয়ার ↔ মোবাইল ফোন = <strong style="color:var(--green)">রেডিও ওয়েভ</strong><br>
+    • TV রিমোট = <strong style="color:var(--green)">ইনফ্রারেড</strong> [য. বো. ২০১৯]<br>
+    • GEO স্যাটেলাইট = <strong style="color:var(--green)">36,000 km</strong> [কু. বো. ২০১৯]<br>
+    • মাইক্রোওয়েভের অসুবিধা দূরে = <strong style="color:var(--green)">কৃত্রিম উপগ্রহ/স্যাটেলাইট</strong><br>
+    • আবহাওয়া পর্যবেক্ষণ = <strong style="color:var(--green)">স্যাটেলাইট</strong> [ব. বোর্ড-২৪]
+  </div>
+</section>
+
+
+<!-- ════════════════════ 7. WIRELESS COMM ════════════════════ -->
+<section id="wcomm">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 07</span>
+    <h2 class="section-title">ওয়্যারলেস <span>কমিউনিকেশন</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="protocol-row fade-up">
+
+    <!-- Bluetooth -->
+    <div class="proto-card" style="border-color:rgba(0,102,255,.25)">
+      <h4 style="color:#66aaff">Bluetooth</h4>
+      <span class="proto-full">Personal Area Network</span>
+      <div class="proto-spec">
+        <div class="ps-row"><span class="ps-key">IEEE স্ট্যান্ডার্ড</span><span class="ps-val">802.15</span></div>
+        <div class="ps-row"><span class="ps-key">ফ্রিকোয়েন্সি</span><span class="ps-val">2.45 GHz</span></div>
+        <div class="ps-row"><span class="ps-key">নেটওয়ার্ক নাম</span><span class="ps-val">পিকোনেট (Piconet)</span></div>
+        <div class="ps-row"><span class="ps-key">মাস্টার ডিভাইস</span><span class="ps-val">১টি</span></div>
+        <div class="ps-row"><span class="ps-key">স্লেভ ডিভাইস</span><span class="ps-val">৭টি (সর্বোচ্চ)</span></div>
+        <div class="ps-row"><span class="ps-key">মোট ডিভাইস</span><span class="ps-val">৮টি</span></div>
+        <div class="ps-row"><span class="ps-key">একাধিক পিকোনেট</span><span class="ps-val">স্ক্যাটারনেট</span></div>
+        <div class="ps-row"><span class="ps-key">নেটওয়ার্ক ধরন</span><span class="ps-val">WPAN</span></div>
+      </div>
+    </div>
+
+    <!-- WiFi -->
+    <div class="proto-card" style="border-color:rgba(0,255,136,.25)">
+      <h4 style="color:var(--green)">Wi-Fi</h4>
+      <span class="proto-full">Wireless Fidelity</span>
+      <div class="proto-spec">
+        <div class="ps-row"><span class="ps-key">IEEE স্ট্যান্ডার্ড</span><span class="ps-val">802.11</span></div>
+        <div class="ps-row"><span class="ps-key">নেটওয়ার্ক ধরন</span><span class="ps-val">WLAN</span></div>
+        <div class="ps-row"><span class="ps-key">ব্যবহার</span><span class="ps-val">ছোট এলাকায় ইন্টারনেট</span></div>
+        <div class="ps-row"><span class="ps-key">হটস্পট</span><span class="ps-val">তারবিহীন ইন্টারনেট ব্যবস্থা</span></div>
+        <div class="ps-row"><span class="ps-key">পাহাড়ে নেটওয়ার্ক</span><span class="ps-val">WiMAX বেশি উপযুক্ত</span></div>
+      </div>
+    </div>
+
+    <!-- WiMAX -->
+    <div class="proto-card" style="border-color:rgba(191,0,255,.25)">
+      <h4 style="color:#d966ff">WiMAX</h4>
+      <span class="proto-full">Worldwide Interoperability for Microwave Access</span>
+      <div class="proto-spec">
+        <div class="ps-row"><span class="ps-key">IEEE স্ট্যান্ডার্ড</span><span class="ps-val">802.16</span></div>
+        <div class="ps-row"><span class="ps-key">নেটওয়ার্ক ধরন</span><span class="ps-val">WMAN</span></div>
+        <div class="ps-row"><span class="ps-key">পরিসর</span><span class="ps-val">বড় এলাকা (কিমি)</span></div>
+        <div class="ps-row"><span class="ps-key">পাহাড়ে ব্যবহার</span><span class="ps-val">সবচেয়ে উপযুক্ত ✓</span></div>
+        <div class="ps-row"><span class="ps-key">তুলনা</span><span class="ps-val">WiFi এর চেয়ে বেশি পরিসর</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ IEEE স্ট্যান্ডার্ড মনে রাখার উপায়:</strong><br>
+    📱 <strong style="color:#66aaff">Bluetooth = 802.15</strong> | 📶 <strong style="color:var(--green)">Wi-Fi = 802.11</strong> | 🌐 <strong style="color:#d966ff">WiMAX = 802.16</strong><br><br>
+    • পিকোনেট = <strong style="color:var(--green)">Bluetooth নেটওয়ার্ক</strong><br>
+    • ওয়্যারলেস MAN = <strong style="color:var(--green)">WiMAX</strong> [রা. বোর্ড-২৪]<br>
+    • Wi-Fi vs WiMAX পার্থক্য = কাভারেজ এরিয়া ও ট্রান্সমিশন স্পিডে [ব. বো. ২০১৬]
+  </div>
+</section>
+
+
+<!-- ════════════════════ 8. MOBILE GEN ════════════════════ -->
+<section id="mobile">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 08</span>
+    <h2 class="section-title">মোবাইল যোগাযোগ — <span>বিভিন্ন প্রজন্ম</span></h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--muted);font-size:.85rem;font-family:'Noto Sans Bengali',sans-serif">মোবাইল ফোনের জনক: মার্টিন কুপার</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr;gap:0">
+    <div class="gen-timeline fade-up">
+
+      <div class="gen-item">
+        <div class="gen-header">
+          <span class="gen-badge">1G</span>
+          <div>
+            <div class="gen-name">প্রথম প্রজন্ম (First Generation)</div>
+            <div class="gen-era">১৯৮০ দশক • অ্যানালগ</div>
+          </div>
+        </div>
+        <div class="gen-features">
+          <span class="feat-tag" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">শুধু ভয়েস কল</span>
+          <span class="feat-tag" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">অ্যানালগ সিগন্যাল</span>
+          <span class="feat-tag" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">FDMA প্রযুক্তি</span>
+          <span class="feat-tag" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">কম নিরাপত্তা</span>
+        </div>
+      </div>
+
+      <div class="gen-item">
+        <div class="gen-header">
+          <span class="gen-badge" style="color:#ffd700">2G</span>
+          <div>
+            <div class="gen-name">দ্বিতীয় প্রজন্ম (Second Generation)</div>
+            <div class="gen-era">১৯৯০ দশক • ডিজিটাল</div>
+          </div>
+        </div>
+        <div class="gen-features">
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">ডিজিটাল সিগন্যাল (প্রথম)</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">SMS চালু</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">MMS চালু</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">প্রি-পেইড</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">আন্তর্জাতিক রোমিং</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">GSM / CDMA</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">GPRS (2.5G)</span>
+          <span class="feat-tag" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">সার্কিট সুইচিং</span>
+        </div>
+        <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+          GSM = Global System for Mobile Communication | CDMA = গ্রীন ফোন
+        </div>
+      </div>
+
+      <div class="gen-item">
+        <div class="gen-header">
+          <span class="gen-badge" style="color:var(--cyan)">3G</span>
+          <div>
+            <div class="gen-name">তৃতীয় প্রজন্ম (Third Generation)</div>
+            <div class="gen-era">২০০০ দশক • ব্রডব্যান্ড</div>
+          </div>
+        </div>
+        <div class="gen-features">
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">ইন্টারনেট (প্রথম)</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">ভিডিও কল</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">মোবাইল ব্যাংকিং</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">ই-কমার্স</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">প্যাকেট সুইচিং</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">WCDMA / HSPA</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">EDGE (2.75G)</span>
+        </div>
+        <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+          GPRS = General Packet Radio Service (2.5G) | EDGE = 2.75G
+        </div>
+      </div>
+
+      <div class="gen-item">
+        <div class="gen-header">
+          <span class="gen-badge" style="color:var(--violet)">4G</span>
+          <div>
+            <div class="gen-name">চতুর্থ প্রজন্ম (Fourth Generation)</div>
+            <div class="gen-era">২০১০ দশক • LTE</div>
+          </div>
+        </div>
+        <div class="gen-features">
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">IP নির্ভর নেটওয়ার্ক</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">LTE স্ট্যান্ডার্ড</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">3G এর চেয়ে ৫০ গুণ দ্রুত</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">HD মোবাইল TV</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">4K TV সাপোর্ট</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">ভিডিও কনফারেন্সিং</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">গেমিং সার্ভিস</span>
+        </div>
+        <div style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+          IP ভিত্তিক = ৪র্থ প্রজন্ম থেকে শুরু
+        </div>
+      </div>
+
+      <div class="gen-item" style="border-color:rgba(0,255,136,.25)">
+        <div class="gen-header">
+          <span class="gen-badge" style="color:var(--green)">5G</span>
+          <div>
+            <div class="gen-name">পঞ্চম প্রজন্ম (Fifth Generation)</div>
+            <div class="gen-era">২০২০+ • Ultra Broadband</div>
+          </div>
+        </div>
+        <div class="gen-features">
+          <span class="feat-tag" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">WWWW (World Wide Wireless Web)</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">MIMO</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">RAT</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">অতি উচ্চ গতি</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">IoT সাপোর্ট</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- আপলিংক/ডাউনলিংক -->
+  <div class="info-block fade-up" style="margin-top:2rem">
+    <h2><span class="num">📶</span>মোবাইল নেটওয়ার্ক পরিভাষা</h2>
+    <table class="data-table">
+      <thead><tr><th>পরিভাষা</th><th>সংজ্ঞা</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--cyan);font-family:var(--font-display)">আপলিংক</td><td>মোবাইল → বেজ স্টেশনে ডেটা পাঠানো</td></tr>
+        <tr><td style="color:var(--cyan);font-family:var(--font-display)">ডাউনলিংক</td><td>বেজ স্টেশন → মোবাইলে ডেটা পাঠানো</td></tr>
+        <tr><td style="color:var(--cyan);font-family:var(--font-display)">CDMA</td><td>Code Division Multiple Access = গ্রীন ফোন</td></tr>
+        <tr><td style="color:var(--cyan);font-family:var(--font-display)">GPS</td><td>Global Positioning System = অবস্থান নির্ণয়</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box fade-up" style="border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ পরীক্ষার MCQ:</strong><br>
+    • রেডিও সিগন্যাল প্রথম ডিজিটাল = <strong style="color:var(--green)">২য় প্রজন্ম</strong> [ব. বো. ২০১৯]<br>
+    • প্রথম ইন্টারনেট = <strong style="color:var(--green)">৩য় প্রজন্ম</strong><br>
+    • প্রথম ভিডিও কল = <strong style="color:var(--green)">৩য় প্রজন্ম</strong> [ঢা. বোর্ড-২৪]<br>
+    • প্রি-পেইড চালু = <strong style="color:var(--green)">২য় প্রজন্ম</strong> [য. বোর্ড-২৪]<br>
+    • IP নির্ভর নেটওয়ার্ক = <strong style="color:var(--green)">৪র্থ প্রজন্ম</strong> [চ. বোর্ড-২৪]<br>
+    • 4K TV = <strong style="color:var(--green)">৪র্থ প্রজন্ম</strong> [রা. বোর্ড-২৪]<br>
+    • GPRS = <strong style="color:var(--green)">২.৫G (২য় প্রজন্ম)</strong> [কু. বো. ২০১৭]
+  </div>
+</section>
+
+
+<!-- ════════════════════ 9. NETWORKS ════════════════════ -->
+<section id="networks">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 09</span>
+    <h2 class="section-title">কম্পিউটার <span>নেটওয়ার্ক</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="network-types fade-up">
+    <div class="net-card">
+      <span class="net-abbr" style="color:#ff8866">PAN</span>
+      <span class="net-full">Personal Area Network</span>
+      <span class="net-range" style="background:rgba(255,100,50,.1);color:#ff8866;border:1px solid rgba(255,100,50,.2)">≤ 10m</span>
+      <p>ব্যক্তিগত ডিভাইসের মধ্যে নেটওয়ার্ক। Bluetooth দিয়ে তৈরি।</p>
+    </div>
+
+    <div class="net-card">
+      <span class="net-abbr" style="color:var(--cyan)">LAN</span>
+      <span class="net-full">Local Area Network</span>
+      <span class="net-range" style="background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)">≤ 1km</span>
+      <p>একটি ভবন বা কাছের কয়েকটি ভবনে নেটওয়ার্ক। হাব বা সুইচ দিয়ে তৈরি।</p>
+    </div>
+
+    <div class="net-card">
+      <span class="net-abbr" style="color:var(--green)">CAN</span>
+      <span class="net-full">Campus Area Network</span>
+      <span class="net-range" style="background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)">1–5 km</span>
+      <p>ক্যাম্পাস বা শিল্প এলাকায় একাধিক LAN এর সমন্বয়।</p>
+    </div>
+
+    <div class="net-card">
+      <span class="net-abbr" style="color:#ffd700">MAN</span>
+      <span class="net-full">Metropolitan Area Network</span>
+      <span class="net-range" style="background:rgba(255,200,0,.1);color:#ffd700;border:1px solid rgba(255,200,0,.2)">≤ 50km</span>
+      <p>একটি শহর বা মেট্রোপলিটন এলাকায় নেটওয়ার্ক। WiMAX দিয়ে তৈরি।</p>
+    </div>
+
+    <div class="net-card">
+      <span class="net-abbr" style="color:#d966ff">WAN</span>
+      <span class="net-full">Wide Area Network</span>
+      <span class="net-range" style="background:rgba(191,0,255,.1);color:#d966ff;border:1px solid rgba(191,0,255,.2)">দেশ/বিশ্ব</span>
+      <p>দেশ বা আন্তর্জাতিক পর্যায়ে নেটওয়ার্ক। ইন্টারনেট = WAN এর উদাহরণ।</p>
+    </div>
+  </div>
+
+  <div class="info-block fade-up" style="margin-top:2rem">
+    <h2><span class="num">🎯</span>কম্পিউটার নেটওয়ার্কের উদ্দেশ্য</h2>
+    <div class="topic-grid">
+      <div class="card">
+        <span class="card-icon">📁</span>
+        <h3>তথ্য রিসোর্স শেয়ার</h3>
+        <p>নেটওয়ার্কভুক্ত সকল কম্পিউটার একে অপরের ফাইল ও তথ্য শেয়ার করতে পারে।</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💾</span>
+        <h3>সফটওয়্যার শেয়ার</h3>
+        <p>একটি সফটওয়্যার ইন্সটল করে সব কম্পিউটার থেকে ব্যবহার করা যায়।</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🖨️</span>
+        <h3>হার্ডওয়্যার শেয়ার</h3>
+        <p>একটি প্রিন্টার, স্ক্যানার ইত্যাদি সব কম্পিউটার ব্যবহার করতে পারে।</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-up" style="border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ MCQ:</strong><br>
+    • PAN = ≤ 10m | LAN = ≤ 1km | CAN = 1-5km | MAN = ≤ 50km<br>
+    • পাশাপাশি দুটি ভবনে ৫ কম্পিউটার → ১ প্রিন্টার = <strong style="color:var(--green)">LAN</strong> [মা. বোর্ড. ২০১৭]<br>
+    • সিটি কর্পোরেশন ফ্রি ইন্টারনেট = <strong style="color:var(--green)">MAN + পাবলিক</strong><br>
+    • ক্লায়েন্ট সার্ভার নেটওয়ার্ক = <strong style="color:var(--green)">LAN</strong> [য. বোর্ড. ২০১৬]
+  </div>
+</section>
+
+
+<!-- ════════════════════ 10. DEVICES ════════════════════ -->
+<section id="devices">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 10</span>
+    <h2 class="section-title">নেটওয়ার্ক <span>ডিভাইস</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="devices-grid fade-up">
+
+    <div class="device-card">
+      <span class="device-icon">📶</span>
+      <h4>মডেম (Modem)</h4>
+      <p>ডিজিটাল → অ্যানালগ (মডুলেশন) ও অ্যানালগ → ডিজিটাল (ডিমডুলেশন)। ডেটা প্রেরণ ও গ্রহণ করে।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🔌</span>
+      <h4>NIC (Network Interface Card)</h4>
+      <p>কম্পিউটারকে নেটওয়ার্কে যুক্ত করে। ৪৮ বিটের MAC অ্যাড্রেস থাকে = 6 বাইট।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">📡</span>
+      <h4>রিপিটার (Repeater)</h4>
+      <p>দুর্বল সিগন্যালকে পুনরায় শক্তিশালী ও বিবর্ধিত করে দূরে পাঠায়।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🔗</span>
+      <h4>হাব (Hub)</h4>
+      <p>LAN ডিভাইস। সিগন্যাল ব্রডকাস্ট করে — সব পোর্টে পাঠায়। ডেটা ফিল্টারিং করতে পারে না।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🔀</span>
+      <h4>সুইচ (Switch)</h4>
+      <p>LAN ডিভাইস। শুধু প্রাপক কম্পিউটারে ডেটা পাঠায়। ডেটা ফিল্টারিং করতে পারে। ডেটা সংঘর্ষ কমায়।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🌐</span>
+      <h4>রাউটার (Router)</h4>
+      <p>WAN ডিভাইস। একই প্রটোকলের একাধিক নেটওয়ার্ক যুক্ত করে। রাউটিং টেবিল ব্যবহার করে।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🚪</span>
+      <h4>গেটওয়ে (Gateway)</h4>
+      <p>WAN ডিভাইস। ভিন্ন প্রটোকলের নেটওয়ার্ক যুক্ত করে। প্রটোকল কনভার্টার / ট্রান্সলেটর।</p>
+    </div>
+
+    <div class="device-card">
+      <span class="device-icon">🌉</span>
+      <h4>ব্রিজ (Bridge)</h4>
+      <p>বড় নেটওয়ার্ককে ছোট সেগমেন্টে ভাগ করে। ডেটা ফিল্টারিং করতে পারে।</p>
+    </div>
+
+  </div>
+
+  <div class="info-block fade-up" style="margin-top:2rem">
+    <table class="data-table">
+      <thead><tr><th>ডিভাইস</th><th>প্রকার</th><th>ডেটা ফিল্টারিং</th><th>বিশেষত্ব</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--cyan)">হাব</td><td>LAN</td><td style="color:#ff6b6b">❌ না</td><td>ব্রডকাস্ট করে</td></tr>
+        <tr><td style="color:var(--cyan)">সুইচ</td><td>LAN</td><td style="color:var(--green)">✅ হ্যাঁ</td><td>নির্দিষ্ট প্রাপকে পাঠায়</td></tr>
+        <tr><td style="color:var(--cyan)">রাউটার</td><td>WAN</td><td style="color:var(--green)">✅ হ্যাঁ</td><td>রাউটিং টেবিল, একই প্রটোকল</td></tr>
+        <tr><td style="color:var(--cyan)">গেটওয়ে</td><td>WAN</td><td style="color:var(--green)">✅ হ্যাঁ</td><td>ভিন্ন প্রটোকল, কনভার্টার</td></tr>
+        <tr><td style="color:var(--cyan)">রিপিটার</td><td>LAN/WAN</td><td style="color:#ff6b6b">❌ না</td><td>সিগন্যাল বিবর্ধিত করে</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box fade-up" style="border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ পার্থক্য মনে রাখো:</strong><br>
+    • মডুলেশন = ডিজিটাল → অ্যানালগ | ডিমডুলেশন = অ্যানালগ → ডিজিটাল [ঢা. বোর্ড. ২০১৭]<br>
+    • MAC অ্যাড্রেস = <strong style="color:var(--green)">48 bit = 6 byte</strong><br>
+    • হাব = ব্রডকাস্ট | সুইচ = নির্দিষ্ট প্রাপক [সকল. বোর্ড. ২০১৮]<br>
+    • প্রটোকল কনভার্টার = <strong style="color:var(--green)">গেটওয়ে</strong> [ম. বোর্ড-২৪]<br>
+    • রাউটার ও গেটওয়ে = <strong style="color:var(--green)">WAN ডিভাইস</strong><br>
+    • হাব ও সুইচ = <strong style="color:var(--green)">LAN ডিভাইস</strong>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 11. TOPOLOGY ════════════════════ -->
+<section id="topology">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 11</span>
+    <h2 class="section-title">নেটওয়ার্ক <span>টপোলজি</span></h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--muted);font-size:.85rem;font-family:'Noto Sans Bengali',sans-serif">নেটওয়ার্কভুক্ত কম্পিউটার ও ডিভাইসগুলোর সংযোগ বিন্যাস = টপোলজি</p>
+  </div>
+
+  <div class="topo-grid fade-up">
+
+    <!-- BUS -->
+    <div class="topo-card">
+      <div class="topo-vis">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <line x1="20" y1="75" x2="220" y2="75" stroke="#00f5ff" stroke-width="3" opacity=".6"/>
+          <rect x="10" y="68" width="10" height="14" fill="#00f5ff" rx="2"/>
+          <rect x="220" y="68" width="10" height="14" fill="#00f5ff" rx="2"/>
+          <!-- nodes -->
+          <g>
+            <line x1="60" y1="75" x2="60" y2="110" stroke="rgba(0,245,255,.4)" stroke-width="1.5"/>
+            <circle cx="60" cy="120" r="10" fill="#0d1530" stroke="#00f5ff" stroke-width="1.5"/>
+            <text x="60" y="124" text-anchor="middle" fill="#00f5ff" font-size="9">PC</text>
+          </g>
+          <g>
+            <line x1="100" y1="75" x2="100" y2="110" stroke="rgba(0,245,255,.4)" stroke-width="1.5"/>
+            <circle cx="100" cy="120" r="10" fill="#0d1530" stroke="#00f5ff" stroke-width="1.5"/>
+            <text x="100" y="124" text-anchor="middle" fill="#00f5ff" font-size="9">PC</text>
+          </g>
+          <g>
+            <line x1="140" y1="75" x2="140" y2="40" stroke="rgba(0,245,255,.4)" stroke-width="1.5"/>
+            <circle cx="140" cy="30" r="10" fill="#0d1530" stroke="#00f5ff" stroke-width="1.5"/>
+            <text x="140" y="34" text-anchor="middle" fill="#00f5ff" font-size="9">PC</text>
+          </g>
+          <g>
+            <line x1="180" y1="75" x2="180" y2="110" stroke="rgba(0,245,255,.4)" stroke-width="1.5"/>
+            <circle cx="180" cy="120" r="10" fill="#0d1530" stroke="#00f5ff" stroke-width="1.5"/>
+            <text x="180" y="124" text-anchor="middle" fill="#00f5ff" font-size="9">PC</text>
+          </g>
+          <text x="120" y="15" text-anchor="middle" fill="rgba(0,245,255,.5)" font-size="10" font-family="monospace">BUS TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>বাস টপোলজি (Bus)</h3>
+        <p>একটি মূল তারের সাথে সব কম্পিউটার যুক্ত। উভয় প্রান্তে টার্মিনেটর থাকে। সস্তা কিন্তু একটি তার নষ্ট হলে পুরো নেটওয়ার্ক বন্ধ।</p>
+        <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">
+          <span class="feat-tag" style="background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.15);font-size:.7rem">দ্বিমুখী ডেটা</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.15);font-size:.7rem">টার্মিনেটর থাকে</span>
+          <span class="feat-tag" style="background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.15);font-size:.7rem">কম খরচ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RING -->
+    <div class="topo-card">
+      <div class="topo-vis">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <circle cx="120" cy="75" r="48" fill="none" stroke="#bf00ff" stroke-width="2" opacity=".5" stroke-dasharray="6,3"/>
+          <circle cx="120" cy="27" r="10" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <text x="120" y="31" text-anchor="middle" fill="#bf00ff" font-size="9">PC</text>
+          <circle cx="168" cy="75" r="10" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <text x="168" y="79" text-anchor="middle" fill="#bf00ff" font-size="9">PC</text>
+          <circle cx="120" cy="123" r="10" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <text x="120" y="127" text-anchor="middle" fill="#bf00ff" font-size="9">PC</text>
+          <circle cx="72" cy="75" r="10" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <text x="72" y="79" text-anchor="middle" fill="#bf00ff" font-size="9">PC</text>
+          <!-- arrow -->
+          <path d="M 120 37 A 38 38 0 0 1 158 75" fill="none" stroke="#bf00ff" stroke-width="1.5" marker-end="url(#arr)" opacity=".8"/>
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#bf00ff"/></marker></defs>
+          <text x="120" y="10" text-anchor="middle" fill="rgba(191,0,255,.5)" font-size="10" font-family="monospace">RING TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>রিং টপোলজি (Ring)</h3>
+        <p>প্রথম ও শেষ কম্পিউটার পরস্পর যুক্ত। চক্রাকার বিন্যাস। একটি নষ্ট হলে সব বন্ধ। ডেটা একমুখী।</p>
+        <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">
+          <span class="feat-tag" style="background:rgba(191,0,255,.08);color:#d966ff;border:1px solid rgba(191,0,255,.15);font-size:.7rem">চক্রাকার</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.08);color:#d966ff;border:1px solid rgba(191,0,255,.15);font-size:.7rem">একমুখী ডেটা</span>
+          <span class="feat-tag" style="background:rgba(191,0,255,.08);color:#d966ff;border:1px solid rgba(191,0,255,.15);font-size:.7rem">টোকেন পদ্ধতি</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAR -->
+    <div class="topo-card">
+      <div class="topo-vis">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <!-- hub -->
+          <circle cx="120" cy="75" r="18" fill="rgba(0,255,136,.1)" stroke="#00ff88" stroke-width="2"/>
+          <text x="120" y="79" text-anchor="middle" fill="#00ff88" font-size="9" font-family="monospace">HUB</text>
+          <!-- lines -->
+          <line x1="120" y1="57" x2="120" y2="20" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <line x1="120" y1="93" x2="120" y2="130" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <line x1="102" y1="75" x2="50" y2="75" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <line x1="138" y1="75" x2="190" y2="75" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <line x1="107" y1="62" x2="70" y2="35" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <line x1="133" y1="62" x2="170" y2="35" stroke="rgba(0,255,136,.4)" stroke-width="1.5"/>
+          <!-- nodes -->
+          <circle cx="120" cy="16" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="120" cy="134" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="46" cy="75" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="194" cy="75" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="66" cy="31" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="174" cy="31" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <text x="120" y="10" text-anchor="middle" fill="rgba(0,255,136,.5)" font-size="10" font-family="monospace">STAR TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>স্টার টপোলজি (Star)</h3>
+        <p>সব কম্পিউটার কেন্দ্রীয় হাব/সুইচের সাথে যুক্ত। একটি নষ্ট হলে অন্যগুলো চলে। কেন্দ্রীয় ডিভাইস নষ্ট হলে সব বন্ধ।</p>
+        <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">
+          <span class="feat-tag" style="background:rgba(0,255,136,.08);color:var(--green);border:1px solid rgba(0,255,136,.15);font-size:.7rem">কেন্দ্রীয় হাব/সুইচ</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.08);color:var(--green);border:1px solid rgba(0,255,136,.15);font-size:.7rem">সহজ রক্ষণাবেক্ষণ</span>
+          <span class="feat-tag" style="background:rgba(0,255,136,.08);color:var(--green);border:1px solid rgba(0,255,136,.15);font-size:.7rem">বেশি ক্যাবল</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESH -->
+    <div class="topo-card">
+      <div class="topo-vis">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <!-- all connections -->
+          <line x1="60" y1="40" x2="180" y2="40" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="60" y1="40" x2="60" y2="110" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="60" y1="40" x2="180" y2="110" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="60" y1="40" x2="120" y2="75" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="180" y1="40" x2="60" y2="110" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="180" y1="40" x2="180" y2="110" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="180" y1="40" x2="120" y2="75" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="60" y1="110" x2="180" y2="110" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="60" y1="110" x2="120" y2="75" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <line x1="180" y1="110" x2="120" y2="75" stroke="rgba(255,107,0,.35)" stroke-width="1.5"/>
+          <!-- nodes -->
+          <circle cx="60" cy="40" r="12" fill="#0d1530" stroke="#ff6b00" stroke-width="2"/>
+          <circle cx="180" cy="40" r="12" fill="#0d1530" stroke="#ff6b00" stroke-width="2"/>
+          <circle cx="60" cy="110" r="12" fill="#0d1530" stroke="#ff6b00" stroke-width="2"/>
+          <circle cx="180" cy="110" r="12" fill="#0d1530" stroke="#ff6b00" stroke-width="2"/>
+          <circle cx="120" cy="75" r="12" fill="#0d1530" stroke="#ff6b00" stroke-width="2"/>
+          <text x="120" y="10" text-anchor="middle" fill="rgba(255,107,0,.5)" font-size="10" font-family="monospace">MESH TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>মেশ টপোলজি (Mesh)</h3>
+        <p>প্রতিটি কম্পিউটার অন্য প্রতিটির সাথে সরাসরি যুক্ত। সর্বোচ্চ নির্ভরযোগ্যতা। তার সংখ্যা n(n-1)/2।</p>
+        <div class="formula" style="padding:.5rem;font-size:.8rem;margin-top:.5rem">n(n-1)/2 তার | প্রতিটিতে (n-1) সংযোগ</div>
+        <div style="margin-top:.5rem;font-size:.78rem;color:var(--muted);font-family:'Noto Sans Bengali',sans-serif">
+          10 নোড → 10×9/2 = <strong style="color:var(--cyan)">45টি তার</strong><br>
+          12 নোড → 12×11/2 = <strong style="color:var(--cyan)">66টি তার</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- TREE -->
+    <div class="topo-card">
+      <div class="topo-vis">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <!-- root -->
+          <circle cx="120" cy="20" r="12" fill="rgba(102,170,255,.1)" stroke="#66aaff" stroke-width="2"/>
+          <text x="120" y="24" text-anchor="middle" fill="#66aaff" font-size="8">Root</text>
+          <!-- level 2 -->
+          <line x1="120" y1="32" x2="70" y2="70" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <line x1="120" y1="32" x2="170" y2="70" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <circle cx="70" cy="80" r="10" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <circle cx="170" cy="80" r="10" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <!-- level 3 -->
+          <line x1="70" y1="90" x2="40" y2="120" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <line x1="70" y1="90" x2="100" y2="120" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <line x1="170" y1="90" x2="140" y2="120" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <line x1="170" y1="90" x2="200" y2="120" stroke="rgba(102,170,255,.4)" stroke-width="1.5"/>
+          <circle cx="40" cy="128" r="8" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <circle cx="100" cy="128" r="8" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <circle cx="140" cy="128" r="8" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <circle cx="200" cy="128" r="8" fill="#0d1530" stroke="#66aaff" stroke-width="1.5"/>
+          <text x="120" y="12" text-anchor="middle" fill="rgba(102,170,255,.5)" font-size="8" font-family="monospace">TREE TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>ট্রি টপোলজি (Tree)</h3>
+        <p>শাখা-প্রশাখার মতো বিন্যাস। সহজে সম্প্রসারণ করা যায়। বড় নেটওয়ার্কের জন্য উপযুক্ত।</p>
+        <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">
+          <span class="feat-tag" style="background:rgba(102,170,255,.08);color:#66aaff;border:1px solid rgba(102,170,255,.15);font-size:.7rem">শাখা-প্রশাখা</span>
+          <span class="feat-tag" style="background:rgba(102,170,255,.08);color:#66aaff;border:1px solid rgba(102,170,255,.15);font-size:.7rem">সহজ সম্প্রসারণ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HYBRID -->
+    <div class="topo-card">
+      <div class="topo-vis" style="background:linear-gradient(135deg, #0a0a1a, #12102a)">
+        <svg class="topo-svg" viewBox="0 0 240 150">
+          <!-- star part -->
+          <circle cx="80" cy="75" r="16" fill="rgba(0,255,136,.08)" stroke="#00ff88" stroke-width="1.5"/>
+          <text x="80" y="79" text-anchor="middle" fill="#00ff88" font-size="8">HUB</text>
+          <line x1="80" y1="59" x2="80" y2="30" stroke="rgba(0,255,136,.3)" stroke-width="1.5"/>
+          <line x1="80" y1="91" x2="80" y2="120" stroke="rgba(0,255,136,.3)" stroke-width="1.5"/>
+          <line x1="64" y1="75" x2="30" y2="75" stroke="rgba(0,255,136,.3)" stroke-width="1.5"/>
+          <circle cx="80" cy="25" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="80" cy="126" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="25" cy="75" r="8" fill="#0d1530" stroke="#00ff88" stroke-width="1.5"/>
+          <!-- ring part -->
+          <line x1="96" y1="75" x2="150" y2="40" stroke="rgba(191,0,255,.4)" stroke-width="1.5"/>
+          <line x1="150" y1="40" x2="210" y2="40" stroke="rgba(191,0,255,.4)" stroke-width="1.5"/>
+          <line x1="210" y1="40" x2="210" y2="110" stroke="rgba(191,0,255,.4)" stroke-width="1.5"/>
+          <line x1="210" y1="110" x2="150" y2="110" stroke="rgba(191,0,255,.4)" stroke-width="1.5"/>
+          <line x1="150" y1="110" x2="96" y2="75" stroke="rgba(191,0,255,.4)" stroke-width="1.5"/>
+          <circle cx="150" cy="40" r="8" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <circle cx="210" cy="40" r="8" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <circle cx="210" cy="110" r="8" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <circle cx="150" cy="110" r="8" fill="#0d1530" stroke="#bf00ff" stroke-width="1.5"/>
+          <text x="120" y="12" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="10" font-family="monospace">HYBRID TOPOLOGY</text>
+        </svg>
+      </div>
+      <div class="topo-info">
+        <h3>হাইব্রিড টপোলজি (Hybrid)</h3>
+        <p>দুটি বা ততোধিক ভিন্ন টপোলজির সমন্বয়। ইন্টারনেটের নেটওয়ার্ক টপোলজি হাইব্রিড।</p>
+        <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">
+          <span class="feat-tag" style="background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.1);font-size:.7rem">ইন্টারনেট</span>
+          <span class="feat-tag" style="background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.1);font-size:.7rem">জটিল কাঠামো</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ টপোলজি MCQ:</strong><br>
+    • মেশ টপোলজিতে n নোডের তার = <strong style="color:var(--green)">n(n-1)/2</strong> [রা. বোর্ড-২৪]<br>
+    • 10 নোড → তার = <strong style="color:var(--green)">45টি</strong> [ঢা. বোর্ড ২০২৩] | 12 নোড → <strong style="color:var(--green)">66টি</strong> [দি. বোর্ড-২৪]<br>
+    • সবচেয়ে বেশি ক্যাবল = <strong style="color:var(--green)">মেশ</strong> [কু/সি. বোর্ড-২৪]<br>
+    • ইন্টারনেটের টপোলজি = <strong style="color:var(--green)">হাইব্রিড/মেশ</strong><br>
+    • চক্রাকার যুক্ত → একটি নষ্ট → সব বন্ধ = <strong style="color:var(--green)">রিং</strong> [য. বোর্ড-২৪]<br>
+    • কেন্দ্রীয় ডিভাইস থাকে = <strong style="color:var(--green)">স্টার</strong> [দি. বোর্ড. ২০১৯]<br>
+    • শাখা-প্রশাখার মতো = <strong style="color:var(--green)">ট্রি</strong> | ডেটা যোগাযোগে নির্ভরশীলতা = <strong style="color:var(--green)">মেশ</strong>
+  </div>
+</section>
+
+
+<!-- ════════════════════ 12. CLOUD ════════════════════ -->
+<section id="cloud">
+  <div class="section-header fade-up">
+    <span class="section-tag">Chapter 2 • Topic 12</span>
+    <h2 class="section-title">ক্লাউড <span>কম্পিউটিং</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="info-block fade-up">
+    <h2><span class="num">☁️</span>ক্লাউড কম্পিউটিং কী?</h2>
+    <div class="highlight-box">
+      ইন্টারনেটের মাধ্যমে নেটওয়ার্ক, সার্ভার, স্টোরেজ, সফটওয়্যার ও সার্ভিস সমূহ প্রদানের প্রক্রিয়াকে <strong>ক্লাউড কম্পিউটিং</strong> বলে।
+    </div>
+    <div class="highlight-box" style="margin-top:.8rem">
+      <strong>সুবিধা:</strong> স্বয়ংক্রিয় আপডেট | রক্ষাণাবেক্ষণ খরচ নেই | যেকোনো জায়গা থেকে ব্যবহার | On-Demand | Pay-as-You-Go | Resource Scalability
+    </div>
+  </div>
+
+  <!-- Cloud Types -->
+  <div style="margin-top:1.5rem">
+    <h3 class="fade-up" style="font-family:var(--font-display);font-size:1rem;color:#fff;margin-bottom:1rem;text-align:center">ক্লাউডের প্রকারভেদ (Access Type):</h3>
+    <div class="modes-row fade-up">
+      <div class="mode-card">
+        <span class="mode-arrow">🌍</span>
+        <h4 style="color:var(--cyan)">পাবলিক ক্লাউড</h4>
+        <p>সকলের জন্য উন্মুক্ত। Amazon, Microsoft, Google পরিচালিত।</p>
+        <span class="mode-example">AWS, Azure, Google Cloud</span>
+      </div>
+      <div class="mode-card">
+        <span class="mode-arrow">🏢</span>
+        <h4 style="color:#ffd700">প্রাইভেট ক্লাউড</h4>
+        <p>নির্দিষ্ট সংস্থার জন্য। অভ্যন্তরীণ ব্যবহারের জন্য নিজস্ব ক্লাউড।</p>
+        <span class="mode-example">ব্যাংক, সরকারি প্রতিষ্ঠান</span>
+      </div>
+      <div class="mode-card">
+        <span class="mode-arrow">🔀</span>
+        <h4 style="color:#d966ff">হাইব্রিড ক্লাউড</h4>
+        <p>পাবলিক ও প্রাইভেট ক্লাউডের সমন্বয়।</p>
+        <span class="mode-example">মিশ্র ব্যবহার</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Models -->
+  <div class="cloud-services fade-up" style="margin-top:2rem">
+
+    <div class="cloud-card" style="border-color:rgba(0,245,255,.25)">
+      <span class="cloud-icon">🏗️</span>
+      <h3 style="color:var(--cyan)">IaaS</h3>
+      <div class="cloud-sub">Infrastructure as a Service</div>
+      <p>হার্ডওয়্যার অবকাঠামো সেবা। ভার্চুয়াল সার্ভার, স্টোরেজ, নেটওয়ার্ক।</p>
+      <div class="cloud-examples">
+        <span class="ex-chip">Amazon EC2</span>
+        <span class="ex-chip">AWS</span>
+      </div>
+    </div>
+
+    <div class="cloud-card" style="border-color:rgba(191,0,255,.25)">
+      <span class="cloud-icon">⚙️</span>
+      <h3 style="color:#d966ff">PaaS</h3>
+      <div class="cloud-sub">Platform as a Service</div>
+      <p>অ্যাপ্লিকেশন ডেভেলপমেন্ট প্ল্যাটফর্ম সেবা।</p>
+      <div class="cloud-examples">
+        <span class="ex-chip">Microsoft Azure</span>
+        <span class="ex-chip">Google App Engine</span>
+      </div>
+    </div>
+
+    <div class="cloud-card" style="border-color:rgba(0,255,136,.25)">
+      <span class="cloud-icon">💻</span>
+      <h3 style="color:var(--green)">SaaS</h3>
+      <div class="cloud-sub">Software as a Service</div>
+      <p>সম্পূর্ণ সফটওয়্যার অ্যাপ্লিকেশন সেবা। ব্রাউজার থেকে ব্যবহার।</p>
+      <div class="cloud-examples">
+        <span class="ex-chip">Google Docs</span>
+        <span class="ex-chip">Google Sheets</span>
+        <span class="ex-chip">Gmail</span>
+        <span class="ex-chip">Google Forms</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box fade-up" style="margin-top:1.5rem;border-color:rgba(255,200,0,.3);background:rgba(255,200,0,.04)">
+    <strong style="color:#ffd700">⭐ ক্লাউড MCQ:</strong><br>
+    • App Engine = <strong style="color:var(--green)">PaaS</strong> | EC2 = <strong style="color:var(--green)">IaaS</strong> | Google Apps = <strong style="color:var(--green)">SaaS</strong><br>
+    • স্বয়ংক্রিয় সফটওয়্যার আপডেট = <strong style="color:var(--green)">ক্লাউড কম্পিউটিং</strong><br>
+    • Amazon, Microsoft, Google → পাবলিক ক্লাউড [য. বোর্ড ২০২৩]<br>
+    • ক্লাউড সেবার বৈশিষ্ট্য = Resource Scalability + On Demand + Pay as you Go<br>
+    • ক্লাউডের অসুবিধা = <strong style="color:#ff6b6b">নিরাপত্তা ঝুঁকি আছে</strong> (নিরাপত্তা ঝুঁকি নেই ❌ ভুল)
+  </div>
+</section>
+
+
+<!-- ════════════════════ EXAM TIPS ════════════════════ -->
+<section style="max-width:1400px;margin:0 auto;padding:5rem 2rem">
+  <div class="section-header fade-up">
+    <span class="section-tag">পরীক্ষার প্রস্তুতি</span>
+    <h2 class="section-title">গুরুত্বপূর্ণ <span>MCQ সংকলন</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="tips-grid fade-up">
+    <div class="tip-card">
+      <span class="tip-num">01</span>
+      <h4>ব্যান্ডউইথ সূত্র</h4>
+      <p>ব্যান্ডউইথ = ডেটা ÷ সময় (bps) | ন্যারো: 45-300 | ভয়েস: 1200-9600 | ব্রড: 1Mbps+</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">02</span>
+      <h4>IEEE স্ট্যান্ডার্ড</h4>
+      <p>Bluetooth=802.15 | Wi-Fi=802.11 | WiMAX=802.16 — এই তিনটি অবশ্যই মনে রাখতে হবে</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">03</span>
+      <h4>মোবাইল প্রজন্ম</h4>
+      <p>ডিজিটাল=2G | SMS=2G | ইন্টারনেট=3G | ভিডিও কল=3G | IP নেটওয়ার্ক=4G | 4K TV=4G</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">04</span>
+      <h4>মেশ টপোলজি সূত্র</h4>
+      <p>তার = n(n-1)/2 | 10 নোড=45তার | 12 নোড=66তার | প্রতি নোডে (n-1) সংযোগ</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">05</span>
+      <h4>ফাইবার অপটিক</h4>
+      <p>কোর ব্যাস: 8-100 μm | Single mode: 8-12μm | Multi mode: 50-100μm | তরঙ্গ: 1300/1500nm</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">06</span>
+      <h4>ক্লাউড সার্ভিস</h4>
+      <p>IaaS=EC2/AWS | PaaS=Azure/App Engine | SaaS=Google Apps/Gmail | NaaS=নেটওয়ার্ক</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">07</span>
+      <h4>ট্রান্সমিশন মোড</h4>
+      <p>কী-বোর্ড→CPU=সিমপ্লেক্স | ওয়াকিটকি=হাফ-ডুপ্লেক্স | মোবাইল কল=ফুল-ডুপ্লেক্স</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-num">08</span>
+      <h4>নেটওয়ার্ক ডিভাইস</h4>
+      <p>হাব/সুইচ=LAN | রাউটার/গেটওয়ে=WAN | গেটওয়ে=প্রটোকল কনভার্টার | MAC=48 bit=6 byte</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <h2>📡 Pavel's ICT Notes</h2>
+  <p>Bangladesh Open University | CSE-401 Web Engineering | দ্বিতীয় অধ্যায় সম্পূর্ণ নোট</p>
+  <p style="margin-top:.5rem;font-size:.75rem;color:rgba(107,127,163,.6)">Designed with ❤️ for HSC & BOU Students</p>
+</footer>
+
+
+<script>
+// ── Particles ──
+const particlesContainer = document.getElementById('particles');
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `
+    left: ${Math.random()*100}%;
+    animation-duration: ${6 + Math.random()*12}s;
+    animation-delay: ${Math.random()*10}s;
+    width: ${1+Math.random()*3}px;
+    height: ${1+Math.random()*3}px;
+    background: ${['#00f5ff','#bf00ff','#0066ff','#00ff88'][Math.floor(Math.random()*4)]};
+  `;
+  particlesContainer.appendChild(p);
+}
+
+// ── Bandwidth Calculator ──
+function calcBandwidth() {
+  const bits = parseFloat(document.getElementById('data-bits').value);
+  const time = parseFloat(document.getElementById('time-sec').value);
+  if (!bits || !time || time === 0) return;
+  const bw = bits / time;
+  const resultEl = document.getElementById('calc-result');
+  const valEl = document.getElementById('result-val');
+  const bandEl = document.getElementById('result-band');
+  let bwStr, band;
+  if (bw >= 1e9) { bwStr = (bw/1e9).toFixed(2)+' Gbps'; }
+  else if (bw >= 1e6) { bwStr = (bw/1e6).toFixed(2)+' Mbps'; }
+  else if (bw >= 1e3) { bwStr = (bw/1e3).toFixed(2)+' kbps'; }
+  else { bwStr = bw.toFixed(0)+' bps'; }
+  if (bw < 300) band = '📻 ন্যারো ব্যান্ড (45–300 bps)';
+  else if (bw <= 9600) band = '📞 ভয়েস ব্যান্ড (1200–9600 bps)';
+  else band = '🌐 ব্রড ব্যান্ড (1 Mbps+)';
+  valEl.textContent = bwStr;
+  bandEl.textContent = band;
+  resultEl.classList.add('show');
+}
+
+// ── Scroll Reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── Active Nav ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 150) current = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#'+current);
+  });
+});
+</script>
+</body>
+</html>
